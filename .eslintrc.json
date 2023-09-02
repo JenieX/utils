@@ -1,0 +1,4 @@
+{
+  "extends": "@jeniex/eslint-config",
+  "ignorePatterns": ["/browser", "/node", "!/src"]
+}
