@@ -15,14 +15,25 @@ function ensureJoin(object, separator = ',') {
     return object.join(separator);
 }
 
+function noop() { }
+
 function asserted(object) {
     if (object === null || object === undefined) {
-        throw new Error('Value is either null or undefined');
+        throw new Error('Value is either null or undefined.');
     }
     return object;
 }
 function isTruthy(object) {
-    return Boolean(object);
+    return Boolean(object) === true;
+}
+function isFalsy(object) {
+    return Boolean(object) === false;
+}
+function isNullish(object) {
+    return object === null || object === undefined;
+}
+function isNotNullish(object) {
+    return object !== null && object !== undefined;
 }
 
 async function sleep(milliSeconds) {
@@ -49,4 +60,4 @@ async function listFolders({ folderPath, getFullPath }) {
     return folders;
 }
 
-export { asserted, ensureJoin, isString, isTruthy, listFolders, sleep };
+export { asserted, ensureJoin, isFalsy, isNotNullish, isNullish, isString, isTruthy, listFolders, noop, sleep };
