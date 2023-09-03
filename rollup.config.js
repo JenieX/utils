@@ -21,7 +21,7 @@ export default [
     external: ['node:path', 'node:fs', 'node:fs/promises'],
     plugins: [
       typescript({
-        include: ['./src/**/*.ts'],
+        include: ['./src/**/*.ts', './node_modules/@violentmonkey/types/index.d.ts'],
       }),
     ],
   })),

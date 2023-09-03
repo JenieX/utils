@@ -8,5 +8,6 @@
     "removeComments": false,
     "moduleResolution": "Node",
     "noUncheckedIndexedAccess": true
-  }
+  },
+  "include": ["**/*/", "node_modules/@violentmonkey/types"]
 }

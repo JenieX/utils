@@ -1,12 +1,12 @@
 {
   "files.exclude": {
-    ".eslintrc.json": true,
-    ".gitignore": true,
-    "node_modules": true,
-    "package-lock.json": true,
-    "rollup.config.js": true,
-    "tsconfig.json": true
+    // "node_modules": true
   },
   "[typescript]": { "editor.defaultFormatter": "dbaeumer.vscode-eslint" },
-  "code-runner.executorMap": { "typescript": "tsx" }
+  "code-runner.executorMap": { "typescript": "tsx" },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "package.json": ".gitignore, config.json, tsconfig.json, package-lock.json, rollup.config.*, .eslintrc.json"
+  }
 }
