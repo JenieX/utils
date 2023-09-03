@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 'use strict';
 
 var fs = require('node:fs');

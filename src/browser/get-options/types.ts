@@ -23,3 +23,7 @@ interface FlagNumber extends FlagBase {
 }
 
 export type Flag = FlagBoolean | FlagNumber | FlagString;
+
+export type FlagValue = boolean | number | string;
+
+export type Options = Record<string, FlagValue>;

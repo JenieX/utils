@@ -8,12 +8,10 @@ export default [
     input,
     output: [
       {
-        banner: '// @ts-nocheck\n',
         file: input.replace('src/', '').replace('.ts', '.mjs'),
         format: 'esm',
       },
       {
-        banner: '// @ts-nocheck\n',
         file: input.replace('src/', '').replace('.ts', '.cjs'),
         format: 'cjs',
       },

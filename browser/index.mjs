@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 function isString(object) {
     return typeof object === 'string';
 }
@@ -74,15 +72,15 @@ function $$(selectors, parent) {
     return elements;
 }
 
-function handleFlag(flag) {
-    const { type, name, message: header, values, default: defaultValue } = flag;
-    let message = header;
+function createFlagMessage(flag) {
+    const { message: messageHeader, values, type } = flag;
+    let message = messageHeader;
     if (values !== undefined) {
         message += `\n\n${values.join(' | ')}`;
     }
     if (type === 'number' && flag.range !== undefined) {
         message += '\n';
-        const [min, max] = flag.range ?? [];
+        const [min, max] = flag.range;
         if (min !== undefined) {
             message += `\nMinimum: ${min}`;
         }
@@ -90,51 +88,63 @@ function handleFlag(flag) {
             message += `\nMaximum: ${max}`;
         }
     }
-    const flagValue = prompt(message, defaultValue.toString());
-    if (flagValue === null || flagValue === '') {
+    return message;
+}
+
+function validateFlagValue(flag, promptValue) {
+    const { type, name, values } = flag;
+    if (promptValue === null || promptValue === '') {
         throw new Error(`You did not provide a value for "${name}" option.`);
     }
     switch (type) {
         case 'boolean': {
-            if (flagValue !== 'yes' && flagValue !== 'no') {
+            if (promptValue !== 'yes' && promptValue !== 'no') {
                 throw new Error(`Invalid value for "${name}" option!`);
             }
-            return [name, flagValue === 'yes'];
+            return promptValue === 'yes';
         }
         case 'string': {
-            if (values !== undefined && !values.includes(flagValue)) {
+            if (values !== undefined && !values.includes(promptValue)) {
                 throw new Error(`Provided value for "${name}" option is not in the list.`);
             }
-            return [name, flagValue];
+            return promptValue;
         }
         case 'number': {
-            const [min, max] = flag.range ?? [];
-            const flagValueAsNumber = Number(flagValue);
-            if (Number.isNaN(flagValueAsNumber)) {
+            const promptValueAsNumber = Number(promptValue);
+            if (Number.isNaN(promptValueAsNumber)) {
                 throw new TypeError(`You need to provide a number for "${name}" option!`);
             }
-            if (values !== undefined && !values.includes(flagValueAsNumber)) {
+            if (values !== undefined && !values.includes(promptValueAsNumber)) {
                 throw new Error(`Provided value for "${name}" option is not in the list.`);
             }
-            if (min !== undefined && flagValueAsNumber < min) {
+            const [min, max] = flag.range ?? [];
+            if (min !== undefined && promptValueAsNumber < min) {
                 throw new Error(`Provided value for "${name}" option is less than the minimum.`);
             }
-            if (max !== undefined && flagValueAsNumber > max) {
+            if (max !== undefined && promptValueAsNumber > max) {
                 throw new Error(`Provided value for "${name}" option is greater than the maximum.`);
             }
-            return [name, flagValueAsNumber];
+            return promptValueAsNumber;
+        }
+        default: {
+            throw new Error(`Unsupported flag type for "${name}" option.`);
         }
     }
-    throw new Error('Something went wrong while handling a flag');
 }
-async function createOptions(flags) {
+
+function processFlag(flag) {
+    const message = createFlagMessage(flag);
+    const promptValue = prompt(message, flag.default?.toString());
+    return [flag.name, validateFlagValue(flag, promptValue)];
+}
+async function getOptions(flags) {
     const options = {};
     for (const flag of flags) {
-        const [name, value] = handleFlag(flag);
+        const [name, value] = processFlag(flag);
         options[name] = value;
         await sleep(300);
     }
     return options;
 }
 
-export { $, $$, LOG_ID, SCRIPT_NAME, TAB_URL, alert, asserted, confirm, createOptions, ensureJoin, isFalsy, isNotNullish, isNullish, isString, isTruthy, noop, prompt, sleep };
+export { $, $$, LOG_ID, SCRIPT_NAME, TAB_URL, alert, asserted, confirm, ensureJoin, getOptions, isFalsy, isNotNullish, isNullish, isString, isTruthy, noop, prompt, sleep };

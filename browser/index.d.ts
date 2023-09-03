@@ -51,9 +51,9 @@ interface FlagNumber extends FlagBase {
     default: number;
 }
 type Flag = FlagBoolean | FlagNumber | FlagString;
-
 type FlagValue = boolean | number | string;
 type Options = Record<string, FlagValue>;
-declare function createOptions(flags: Flag[]): Promise<Options>;
 
-export { $, $$, Flag, Fn, LOG_ID, Nullable, SCRIPT_NAME, TAB_URL, alert, asserted, confirm, createOptions, ensureJoin, isFalsy, isNotNullish, isNullish, isString, isTruthy, noop, prompt, sleep };
+declare function getOptions(flags: Flag[]): Promise<Options>;
+
+export { $, $$, Flag, Fn, LOG_ID, Nullable, SCRIPT_NAME, TAB_URL, alert, asserted, confirm, ensureJoin, getOptions, isFalsy, isNotNullish, isNullish, isString, isTruthy, noop, prompt, sleep };
