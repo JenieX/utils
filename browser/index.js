@@ -36,26 +36,120 @@ async function sleep(milliSeconds) {
     });
 }
 
-const scriptInfo = typeof GM === 'undefined' ? GM_info : GM.info;
-const SCRIPT_NAME = scriptInfo.script.name;
+let infoObject;
+if (typeof GM !== 'undefined') {
+    infoObject = GM.info;
+    // eslint-disable-next-line unicorn/no-negated-condition
+}
+else if (typeof GM_info !== 'undefined') {
+    infoObject = GM_info;
+}
+else {
+    infoObject = { script: { name: document.title } };
+}
+const scriptName = infoObject.script.name;
 /** The identifier of the script to be used in logging */
-const LOG_ID = `[${SCRIPT_NAME}]:`;
+const logId = `[${scriptName}]:`;
 /** The initial tab URL on the script run */
-const TAB_URL = window.location.href;
+const tabURL = window.location.href;
 
 function alert(message) {
     if (message === undefined) {
-        window.alert(`[ ${SCRIPT_NAME} ]`);
+        window.alert(`[ ${scriptName} ]`);
         return;
     }
-    window.alert(`[ ${SCRIPT_NAME} ]\n\n${message}`);
+    window.alert(`[ ${scriptName} ]\n\n${message}`);
 }
 function confirm(message) {
-    return window.confirm(`[ ${SCRIPT_NAME} ]\n\n${message}`);
+    return window.confirm(`[ ${scriptName} ]\n\n${message}`);
 }
 function prompt(message, _default) {
-    return window.prompt(`[ ${SCRIPT_NAME} ]\n\n${message}`, _default);
+    return window.prompt(`[ ${scriptName} ]\n\n${message}`, _default);
 }
+
+async function fishResponse(url, options) {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+        throw new Error(`Request to ${response.url} ended with ${response.status} status.`);
+    }
+    return response;
+}
+
+// Note: to set the 'cookie' header, you have to set 'anonymous' to true.
+async function fishXResponse(url, fishOptions) {
+    const { method, anonymous, headers, body, timeOut, onProgress } = fishOptions ?? {};
+    return new Promise((resolve, reject) => {
+        GM.xmlHttpRequest({
+            url,
+            method: method ?? 'GET',
+            headers,
+            anonymous,
+            data: body,
+            responseType: 'blob',
+            timeout: timeOut,
+            onprogress: onProgress,
+            onload({ response, statusText, status, finalUrl }) {
+                const ok = status >= 200 && status < 300;
+                if (!ok) {
+                    reject(new Error(`Request to ${url} ended with ${status} status.`));
+                    return;
+                }
+                const properResponse = new Response(response, {
+                    statusText,
+                    status,
+                });
+                Object.defineProperty(properResponse, 'url', { value: finalUrl });
+                resolve(properResponse);
+            },
+            onerror({ status }) {
+                reject(new Error(`Request to ${url} ended with ${status} status.`));
+            },
+        });
+    });
+}
+
+async function fishBlob(url, options, x) {
+    const response = await (x ? fishXResponse : fishResponse)(url, options);
+    return response.blob();
+}
+
+async function fishBuffer(url, options, x) {
+    const response = await (x ? fishXResponse : fishResponse)(url, options);
+    return response.arrayBuffer();
+}
+
+async function fishDocument(url, options, x) {
+    const response = await (x ? fishXResponse : fishResponse)(url, options);
+    const responseText = await response.text();
+    const parser = new DOMParser();
+    return parser.parseFromString(responseText, 'text/html');
+}
+
+async function fishJson(url, options, x) {
+    const response = await (x ? fishXResponse : fishResponse)(url, options);
+    return response.json();
+}
+
+async function fishText(url, options, x) {
+    const response = await (x ? fishXResponse : fishResponse)(url, options);
+    return response.text();
+}
+
+// https://httpbin.org/anything
+const fish = {
+    blob: async (url, options) => fishBlob(url, options),
+    buffer: async (url, options) => fishBuffer(url, options),
+    document: async (url, options) => fishDocument(url, options),
+    json: async (url, options) => fishJson(url, options),
+    text: async (url, options) => fishText(url, options),
+};
+const fishX = {
+    blob: async (url, options) => fishBlob(url, options, true),
+    buffer: async (url, options) => fishBuffer(url, options, true),
+    document: async (url, options) => fishDocument(url, options, true),
+    json: async (url, options) => fishJson(url, options, true),
+    text: async (url, options) => fishText(url, options, true),
+};
 
 function $(selectors, parent) {
     const element = (parent ?? document).querySelector(ensureJoin(selectors));
@@ -70,6 +164,91 @@ function $$(selectors, parent) {
         throw new Error(`Couldn't find any element with the selector ${selectors}`);
     }
     return elements;
+}
+
+/**
+ * @param key The name of the param in the search query.
+ * @param fullURL If provided, it will be our target, otherwise it is the current location.
+ */
+function getSearchParam(key, fullURL) {
+    const { search } = new URL(fullURL ?? window.location.href);
+    const searchParams = new URLSearchParams(search);
+    const value = searchParams.get(key);
+    if (value === null) {
+        return undefined;
+    }
+    return value;
+}
+/**
+ *
+ * @param key The name of the param that is to be in the search query.
+ * @param value Its value.
+ * @param fullURL If provided, it will be our target, otherwise it is the current location.
+ */
+function setSearchParam(key, value, fullURL) {
+    const updatedURL = [];
+    const { origin, pathname, search, hash } = new URL(fullURL ?? window.location.href);
+    const searchParams = new URLSearchParams(search);
+    searchParams.set(key, value);
+    updatedURL.push(origin, pathname, '?', searchParams.toString());
+    if (hash !== '') {
+        updatedURL.push(hash);
+    }
+    return updatedURL.join('');
+}
+
+function addStyle(css, parent = document.documentElement) {
+    const style = document.createElement('style');
+    style.setAttribute('type', 'text/css');
+    style.textContent = css;
+    parent.append(style);
+    return style;
+}
+
+/**
+ * Waits for image to fully load or throws an error if it failed.
+ */
+async function imageLoad(img) {
+    return new Promise((resolve, reject) => {
+        if (img.complete) {
+            resolve();
+            return;
+        }
+        let onLoad;
+        let onError;
+        const removeListeners = () => {
+            img.removeEventListener('load', onLoad);
+            img.removeEventListener('error', onError);
+        };
+        onLoad = () => {
+            removeListeners();
+            resolve();
+        };
+        onError = () => {
+            removeListeners();
+            reject(new Error('Image failed to load'));
+        };
+        img.addEventListener('load', onLoad);
+        img.addEventListener('error', onError);
+    });
+}
+
+/**
+ * Waits for the page to load.
+ * @param completely Whether or not to wait for resources to load as well.
+ */
+async function pageLoad(completely) {
+    return new Promise((resolve) => {
+        if (document.readyState === 'complete') {
+            resolve();
+            return;
+        }
+        if (completely === true) {
+            window.addEventListener('load', () => resolve());
+            return;
+        }
+        document.addEventListener('DOMContentLoaded', () => resolve());
+    });
 }
 
 function createFlagMessage(flag) {
@@ -147,4 +326,4 @@ async function getOptions(flags) {
     return options;
 }
 
-export { $, $$, LOG_ID, SCRIPT_NAME, TAB_URL, alert, asserted, confirm, ensureJoin, getOptions, isFalsy, isNotNullish, isNullish, isString, isTruthy, noop, prompt, sleep };
+export { $, $$, addStyle, alert, asserted, confirm, ensureJoin, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isFalsy, isNotNullish, isNullish, isString, isTruthy, logId, noop, pageLoad, prompt, scriptName, setSearchParam, sleep, tabURL };

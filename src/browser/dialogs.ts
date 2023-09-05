@@ -1,21 +1,21 @@
-import { SCRIPT_NAME } from './constants';
+import { scriptName } from './variables';
 
 function alert(message?: string): void {
   if (message === undefined) {
-    window.alert(`[ ${SCRIPT_NAME} ]`);
+    window.alert(`[ ${scriptName} ]`);
 
     return;
   }
 
-  window.alert(`[ ${SCRIPT_NAME} ]\n\n${message}`);
+  window.alert(`[ ${scriptName} ]\n\n${message}`);
 }
 
 function confirm(message: string): boolean {
-  return window.confirm(`[ ${SCRIPT_NAME} ]\n\n${message}`);
+  return window.confirm(`[ ${scriptName} ]\n\n${message}`);
 }
 
 function prompt(message: string, _default?: string): string | null {
-  return window.prompt(`[ ${SCRIPT_NAME} ]\n\n${message}`, _default);
+  return window.prompt(`[ ${scriptName} ]\n\n${message}`, _default);
 }
 
 export { alert, confirm, prompt };

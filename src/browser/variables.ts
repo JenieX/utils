@@ -1,11 +1,22 @@
-const scriptInfo = typeof GM === 'undefined' ? GM_info : GM.info;
+type InfoObject = VMScriptGMInfoObject | { script: { name: string } };
 
-const SCRIPT_NAME = scriptInfo.script.name;
+let infoObject: InfoObject;
+
+if (typeof GM !== 'undefined') {
+  infoObject = GM.info;
+// eslint-disable-next-line unicorn/no-negated-condition
+} else if (typeof GM_info !== 'undefined') {
+  infoObject = GM_info;
+} else {
+  infoObject = { script: { name: document.title } };
+}
+
+const scriptName = infoObject.script.name;
 
 /** The identifier of the script to be used in logging */
-const LOG_ID = `[${SCRIPT_NAME}]:`;
+const logId = `[${scriptName}]:`;
 
 /** The initial tab URL on the script run */
-const TAB_URL = window.location.href;
+const tabURL = window.location.href;
 
-export { LOG_ID, SCRIPT_NAME, TAB_URL };
+export { logId, scriptName, tabURL };

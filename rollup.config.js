@@ -8,7 +8,7 @@ export default [
     input,
     output: [
       {
-        file: input.replace('src/', '').replace('.ts', '.mjs'),
+        file: input.replace('src/', '').replace('.ts', '.js'),
         format: 'esm',
       },
       {
