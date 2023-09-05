@@ -1,6 +1,6 @@
 {
   "name": "@jeniex/utils",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "author": "JenieX",
   "homepage": "https://github.com/JenieX/utils",
   "type": "module",
@@ -10,12 +10,12 @@
   "exports": {
     "./browser": {
       "types": "./browser/index.d.ts",
-      "import": "./browser/index.mjs",
+      "import": "./browser/index.js",
       "require": "./browser/index.cjs"
     },
     "./node": {
       "types": "./node/index.d.ts",
-      "import": "./node/index.mjs",
+      "import": "./node/index.js",
       "require": "./node/index.cjs"
     }
   },
