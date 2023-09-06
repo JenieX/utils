@@ -1,7 +1,8 @@
 {
   "files.exclude": {
     "example-require.cjs": true,
-    "example-import.ts": true
+    "example-import.ts": true,
+    ".husky": true
     // "node_modules": true
   },
   "[typescript]": { "editor.defaultFormatter": "dbaeumer.vscode-eslint" },
@@ -9,6 +10,6 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
-    "package.json": "to-do.md, .gitignore, config.json, tsconfig.json, package-lock.json, rollup.config.*, .eslintrc.json"
+    "package.json": ".commitlintrc.json, to-do.md, .gitignore, config.json, tsconfig.json, package-lock.json, rollup.config.*, .eslintrc.json"
   }
 }

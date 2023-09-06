@@ -28,6 +28,8 @@
     "develop": "npm run build -- --watch"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
     "@jeniex/eslint-config": "^0.0.3",
     "@rollup/plugin-typescript": "^11.1.3",
     "@types/node": "^20.5.7",
