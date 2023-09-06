@@ -19,9 +19,9 @@ export interface FishXOptions {
 }
 
 export interface Fish<T> {
-  blob: (url: string, options: T) => Promise<Blob>,
-  buffer: (url: string, options: T) => Promise<ArrayBuffer>,
-  document: (url: string, options: T) => Promise<Document>,
-  json: (url: string, options: T) => Promise<object>,
-  text: (url: string, options: T) => Promise<string>,
+  blob: (url: string, options?: T) => Promise<Blob>,
+  buffer: (url: string, options?: T) => Promise<ArrayBuffer>,
+  document: (url: string, options?: T) => Promise<Document>,
+  JSON: (url: string, options?: T) => Promise<object>,
+  text: (url: string, options?: T) => Promise<string>,
 }

@@ -1,5 +1,5 @@
 /**
- * Waits for image to fully load or throws an error if it failed.
+ * Waits for image to fully load or throws an error if it fails.
  */
 async function imageLoad(img: HTMLImageElement): Promise<void> {
   return new Promise<void>((resolve, reject) => {

@@ -1,6 +1,6 @@
 {
   "name": "@jeniex/utils",
-  "version": "1.0.7",
+  "version": "1.0.10",
   "author": "JenieX",
   "homepage": "https://github.com/JenieX/utils",
   "type": "module",
@@ -24,7 +24,7 @@
     "node"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup --config",
     "develop": "npm run build -- --watch"
   },
   "devDependencies": {

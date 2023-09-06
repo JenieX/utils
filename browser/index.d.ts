@@ -29,11 +29,11 @@ interface FishXOptions {
     onProgress?: (response: VMScriptResponseObject<Blob>) => Promise<void> | void;
 }
 interface Fish<T> {
-    blob: (url: string, options: T) => Promise<Blob>;
-    buffer: (url: string, options: T) => Promise<ArrayBuffer>;
-    document: (url: string, options: T) => Promise<Document>;
-    json: (url: string, options: T) => Promise<object>;
-    text: (url: string, options: T) => Promise<string>;
+    blob: (url: string, options?: T) => Promise<Blob>;
+    buffer: (url: string, options?: T) => Promise<ArrayBuffer>;
+    document: (url: string, options?: T) => Promise<Document>;
+    JSON: (url: string, options?: T) => Promise<object>;
+    text: (url: string, options?: T) => Promise<string>;
 }
 
 declare function fishResponse(url: string, options?: RequestInit): Promise<Response>;
@@ -62,15 +62,15 @@ declare function getSearchParam(key: string, fullURL?: string): string | undefin
 declare function setSearchParam(key: string, value: string, fullURL?: string): string;
 
 declare const scriptName: string;
-/** The identifier of the script to be used in logging */
+/** The identifier of the script to be used in logging. */
 declare const logId: string;
-/** The initial tab URL on the script run */
+/** The initial tab URL on the script run. */
 declare const tabURL: string;
 
 declare function addStyle(css: string, parent?: HTMLElement): HTMLStyleElement;
 
 /**
- * Waits for image to fully load or throws an error if it failed.
+ * Waits for image to fully load or throws an error if it fails.
  */
 declare function imageLoad(img: HTMLImageElement): Promise<void>;
 
@@ -78,7 +78,7 @@ declare function imageLoad(img: HTMLImageElement): Promise<void>;
  * Waits for the page to load.
  * @param completely Whether or not to wait for resources to load as well.
  */
-declare function pageLoad(completely: boolean): Promise<void>;
+declare function pageLoad(completely?: boolean): Promise<void>;
 
 interface FlagBase {
     name: string;

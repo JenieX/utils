@@ -13,10 +13,10 @@ if (typeof GM !== 'undefined') {
 
 const scriptName = infoObject.script.name;
 
-/** The identifier of the script to be used in logging */
+/** The identifier of the script to be used in logging. */
 const logId = `[${scriptName}]:`;
 
-/** The initial tab URL on the script run */
+/** The initial tab URL on the script run. */
 const tabURL = window.location.href;
 
 export { logId, scriptName, tabURL };

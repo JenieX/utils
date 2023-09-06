@@ -2,7 +2,7 @@
  * Waits for the page to load.
  * @param completely Whether or not to wait for resources to load as well.
  */
-async function pageLoad(completely: boolean): Promise<void> {
+async function pageLoad(completely?: boolean): Promise<void> {
   return new Promise((resolve) => {
     if (document.readyState === 'complete') {
       resolve();

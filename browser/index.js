@@ -48,9 +48,9 @@ else {
     infoObject = { script: { name: document.title } };
 }
 const scriptName = infoObject.script.name;
-/** The identifier of the script to be used in logging */
+/** The identifier of the script to be used in logging. */
 const logId = `[${scriptName}]:`;
-/** The initial tab URL on the script run */
+/** The initial tab URL on the script run. */
 const tabURL = window.location.href;
 
 function alert(message) {
@@ -125,7 +125,7 @@ async function fishDocument(url, options, x) {
     return parser.parseFromString(responseText, 'text/html');
 }
 
-async function fishJson(url, options, x) {
+async function fishJSON(url, options, x) {
     const response = await (x ? fishXResponse : fishResponse)(url, options);
     return response.json();
 }
@@ -140,14 +140,14 @@ const fish = {
     blob: async (url, options) => fishBlob(url, options),
     buffer: async (url, options) => fishBuffer(url, options),
     document: async (url, options) => fishDocument(url, options),
-    json: async (url, options) => fishJson(url, options),
+    JSON: async (url, options) => fishJSON(url, options),
     text: async (url, options) => fishText(url, options),
 };
 const fishX = {
     blob: async (url, options) => fishBlob(url, options, true),
     buffer: async (url, options) => fishBuffer(url, options, true),
     document: async (url, options) => fishDocument(url, options, true),
-    json: async (url, options) => fishJson(url, options, true),
+    JSON: async (url, options) => fishJSON(url, options, true),
     text: async (url, options) => fishText(url, options, true),
 };
 
@@ -206,7 +206,7 @@ function addStyle(css, parent = document.documentElement) {
 }
 
 /**
- * Waits for image to fully load or throws an error if it failed.
+ * Waits for image to fully load or throws an error if it fails.
  */
 async function imageLoad(img) {
     return new Promise((resolve, reject) => {
