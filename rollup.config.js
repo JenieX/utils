@@ -1,21 +1,25 @@
 import typescript from '@rollup/plugin-typescript';
 import dts from 'rollup-plugin-dts';
 
-const entries = ['src/node/index.ts', 'src/browser/index.ts'];
+/** @typedef {{input:string, formats:['esm', 'cjs']|['esm']}} Entry */
+
+/** @type {Entry[]} */
+const entries = [
+  { input: 'src/node/index.ts', formats: ['esm', 'cjs'] },
+  { input: 'src/browser/index.ts', formats: ['esm', 'cjs'] },
+];
 
 export default [
-  ...entries.map((input) => ({
+  ...entries.map(({ input, formats }) => ({
     input,
-    output: [
-      {
-        file: input.replace('src/', '').replace('.ts', '.js'),
-        format: 'esm',
-      },
-      {
-        file: input.replace('src/', '').replace('.ts', '.cjs'),
-        format: 'cjs',
-      },
-    ],
+    output: formats.map((format) => {
+      const extension = format === 'esm' ? '.js' : '.cjs';
+
+      return {
+        file: input.replace('src/', '').replace('.ts', extension),
+        format,
+      };
+    }),
     external: ['node:path', 'node:fs', 'node:fs/promises'],
     plugins: [
       typescript({
@@ -23,7 +27,7 @@ export default [
       }),
     ],
   })),
-  ...entries.map((input) => ({
+  ...entries.map(({ input }) => ({
     input,
     output: {
       file: input.replace('src/', '').replace('.ts', '.d.ts'),
