@@ -92,6 +92,28 @@ async function listFolders({ folderPath, getFullPath }) {
     return folders;
 }
 
+/**
+ * Get a list of folders that are present in the provided folder path.
+ * If the provided folder path does not exists, an error will be thrown.
+ */
+function listFoldersSync({ folderPath, getFullPath }) {
+    if (fs.existsSync(folderPath) === false) {
+        throw new Error('The provided folder path does not exist!');
+    }
+    const entries = fs.readdirSync(folderPath, {
+        withFileTypes: true,
+    });
+    const folders = entries
+        .filter((entry) => entry.isDirectory() === true)
+        .map((folderEntry) => {
+        if (getFullPath === true) {
+            return path.join(folderPath, folderEntry.name);
+        }
+        return folderEntry.name;
+    });
+    return folders;
+}
+
 async function removeFiles({ folderPath, filter }) {
     const nestedFilePathPattern = `${path.resolve('./')}\\`;
     if (!folderPath.startsWith(nestedFilePathPattern)) {
@@ -112,6 +134,7 @@ exports.isString = isString;
 exports.isTruthy = isTruthy;
 exports.listFiles = listFiles;
 exports.listFolders = listFolders;
+exports.listFoldersSync = listFoldersSync;
 exports.noop = noop;
 exports.removeFiles = removeFiles;
 exports.sleep = sleep;

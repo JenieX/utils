@@ -46,6 +46,12 @@ declare function listFiles({ folderPath, getFullPath, filter }: ListFilesOpt): P
  */
 declare function listFolders({ folderPath, getFullPath }: ListFoldersOpt): Promise<string[]>;
 
+/**
+ * Get a list of folders that are present in the provided folder path.
+ * If the provided folder path does not exists, an error will be thrown.
+ */
+declare function listFoldersSync({ folderPath, getFullPath }: ListFoldersOpt): string[];
+
 declare function removeFiles({ folderPath, filter }: RemoveFilesOpt): Promise<void>;
 
-export { Fn, Nullable, asserted, ensureJoin, isFalsy, isNotNullish, isNullish, isString, isTruthy, listFiles, listFolders, noop, removeFiles, sleep };
+export { Fn, Nullable, asserted, ensureJoin, isFalsy, isNotNullish, isNullish, isString, isTruthy, listFiles, listFolders, listFoldersSync, noop, removeFiles, sleep };
