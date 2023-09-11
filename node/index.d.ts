@@ -15,10 +15,37 @@ declare function sleep(milliSeconds: number): Promise<void>;
 type Nullable<T> = T | null | undefined;
 type Fn<T = void, U = any> = (param?: U) => T;
 
-interface ListFoldersOpt {
+interface ListBaseOpt {
+    /** The absolute path of the target folder. */
     folderPath: string;
     getFullPath?: boolean;
 }
+interface ListFoldersOpt extends ListBaseOpt {
+}
+interface ListFilesOpt extends ListBaseOpt {
+    /**
+     * If provided, only files with these extensions will be processed.
+     *
+     * @example
+     * ['.css', '.html'];
+     */
+    filter?: string[];
+}
+interface RemoveFilesOpt extends Omit<ListFilesOpt, 'getFullPath'> {
+}
+
+/**
+ * Get a list of files that are present in the provided folder path.
+ * If the provided folder path does not exists, it will return an empty array.
+ */
+declare function listFiles({ folderPath, getFullPath, filter }: ListFilesOpt): Promise<string[]>;
+
+/**
+ * Get a list of folders that are present in the provided folder path.
+ * If the provided folder path does not exists, an error will be thrown.
+ */
 declare function listFolders({ folderPath, getFullPath }: ListFoldersOpt): Promise<string[]>;
 
-export { Fn, Nullable, asserted, ensureJoin, isFalsy, isNotNullish, isNullish, isString, isTruthy, listFolders, noop, sleep };
+declare function removeFiles({ folderPath, filter }: RemoveFilesOpt): Promise<void>;
+
+export { Fn, Nullable, asserted, ensureJoin, isFalsy, isNotNullish, isNullish, isString, isTruthy, listFiles, listFolders, noop, removeFiles, sleep };

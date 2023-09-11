@@ -7,6 +7,7 @@ import dts from 'rollup-plugin-dts';
 const entries = [
   { input: 'src/node/index.ts', formats: ['esm', 'cjs'] },
   { input: 'src/browser/index.ts', formats: ['esm', 'cjs'] },
+  // { input: 'src/browser/index.ts' },
 ];
 
 export default [

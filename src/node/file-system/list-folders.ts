@@ -1,12 +1,12 @@
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
+import { ListFoldersOpt } from './types';
 
-interface ListFoldersOpt {
-  folderPath: string,
-  getFullPath?: boolean,
-}
-
+/**
+ * Get a list of folders that are present in the provided folder path.
+ * If the provided folder path does not exists, an error will be thrown.
+ */
 async function listFolders({ folderPath, getFullPath }: ListFoldersOpt): Promise<string[]> {
   if (fs.existsSync(folderPath) === false) {
     throw new Error('The provided folder path does not exist!');
@@ -29,4 +29,4 @@ async function listFolders({ folderPath, getFullPath }: ListFoldersOpt): Promise
   return folders;
 }
 
-export { listFolders };
+export default listFolders;

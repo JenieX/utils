@@ -40,6 +40,38 @@ async function sleep(milliSeconds) {
     });
 }
 
+/**
+ * Get a list of files that are present in the provided folder path.
+ * If the provided folder path does not exists, it will return an empty array.
+ */
+async function listFiles({ folderPath, getFullPath, filter }) {
+    if (fs.existsSync(folderPath) === false) {
+        return [];
+    }
+    const entries = await fsp.readdir(folderPath, {
+        withFileTypes: true,
+    });
+    const files = entries
+        .filter((entry) => entry.isDirectory() === false)
+        .map((fileEntry) => {
+        if (getFullPath === true) {
+            return path.join(folderPath, fileEntry.name);
+        }
+        return fileEntry.name;
+    });
+    if (filter === undefined) {
+        return files;
+    }
+    return files.filter((fileName) => {
+        const fileExtension = path.extname(fileName);
+        return filter.includes(fileExtension);
+    });
+}
+
+/**
+ * Get a list of folders that are present in the provided folder path.
+ * If the provided folder path does not exists, an error will be thrown.
+ */
 async function listFolders({ folderPath, getFullPath }) {
     if (fs.existsSync(folderPath) === false) {
         throw new Error('The provided folder path does not exist!');
@@ -58,4 +90,15 @@ async function listFolders({ folderPath, getFullPath }) {
     return folders;
 }
 
-export { asserted, ensureJoin, isFalsy, isNotNullish, isNullish, isString, isTruthy, listFolders, noop, sleep };
+async function removeFiles({ folderPath, filter }) {
+    const nestedFilePathPattern = `${path.resolve('./')}\\`;
+    if (!folderPath.startsWith(nestedFilePathPattern)) {
+        throw new Error('Files are outside or at the root of the project folder.');
+    }
+    const filesPaths = await listFiles({ folderPath, getFullPath: true, filter });
+    for (const filePath of filesPaths) {
+        await fsp.unlink(filePath);
+    }
+}
+
+export { asserted, ensureJoin, isFalsy, isNotNullish, isNullish, isString, isTruthy, listFiles, listFolders, noop, removeFiles, sleep };
