@@ -5,9 +5,9 @@ import dts from 'rollup-plugin-dts';
 
 /** @type {Entry[]} */
 const entries = [
-  { input: 'src/node/index.ts', formats: ['esm', 'cjs'] },
   { input: 'src/browser/index.ts', formats: ['esm', 'cjs'] },
-  // { input: 'src/browser/index.ts' },
+  { input: 'src/node/index.ts', formats: ['esm', 'cjs'] },
+  { input: 'src/node/inquirer/index.ts', formats: ['esm'] },
 ];
 
 export default [
@@ -21,7 +21,7 @@ export default [
         format,
       };
     }),
-    external: ['node:path', 'node:fs', 'node:fs/promises'],
+    external: ['node:path', 'node:fs', 'node:fs/promises', 'inquirer'],
     plugins: [
       typescript({
         include: ['./src/**/*.ts', './node_modules/@violentmonkey/types/index.d.ts'],

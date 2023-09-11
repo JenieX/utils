@@ -11,5 +11,5 @@
     "checkJs": true,
     "outDir": "./temp"
   },
-  "include": ["src", "rollup.config.js", "node_modules/@violentmonkey/types"]
+  "include": ["src", "rollup.config.js", "node_modules/@violentmonkey/types", "scrap.ts"]
 }
