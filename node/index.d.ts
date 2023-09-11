@@ -13,7 +13,7 @@ declare function isString(object: unknown): object is string;
 declare function sleep(milliSeconds: number): Promise<void>;
 
 type Nullable<T> = T | null | undefined;
-type Fn<T = any, U = void> = (param: T) => U;
+type Fn<T = void, U = any> = (param?: U) => T;
 
 interface ListFoldersOpt {
     folderPath: string;

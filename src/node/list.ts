@@ -12,18 +12,18 @@ async function listFolders({ folderPath, getFullPath }: ListFoldersOpt): Promise
     throw new Error('The provided folder path does not exist!');
   }
 
-  const items = await fsp.readdir(folderPath, {
+  const entries = await fsp.readdir(folderPath, {
     withFileTypes: true,
   });
 
-  const folders = items
-    .filter((item) => item.isDirectory() === true)
-    .map((folderItem) => {
-      if (getFullPath === undefined) {
-        return folderItem.name;
+  const folders = entries
+    .filter((entry) => entry.isDirectory() === true)
+    .map((folderEntry) => {
+      if (getFullPath === true) {
+        return path.join(folderPath, folderEntry.name);
       }
 
-      return path.join(folderPath, folderItem.name);
+      return folderEntry.name;
     });
 
   return folders;
