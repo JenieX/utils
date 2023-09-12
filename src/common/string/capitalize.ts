@@ -10,6 +10,11 @@ function capitalizeWord(word: string): string {
   return word[0]!.toUpperCase() + word.slice(1).toLowerCase();
 }
 
+/**
+ * capitalizes a word or a sentence.
+ *
+ * @category String
+ */
 function capitalize(sentence: string): string {
   if (sentence.includes(' ')) {
     return sentence.split(' ').map((word, index) => {
