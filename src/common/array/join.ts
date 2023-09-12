@@ -1,6 +1,11 @@
-import { isString } from './is';
+import { isString } from '../is';
 
-function ensureJoin(object: string[] | string, separator = ','): string {
+/**
+ * Joins an array's items or do nothing if it is joined already.
+ *
+ * @category Array
+ */
+function join(object: string[] | string, separator = ','): string {
   if (isString(object)) {
     return object;
   }
@@ -8,4 +13,4 @@ function ensureJoin(object: string[] | string, separator = ','): string {
   return object.join(separator);
 }
 
-export { ensureJoin };
+export default join;
