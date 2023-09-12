@@ -2,18 +2,53 @@ import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import path from 'node:path';
 
+function noop() { }
+function toString(object) {
+    return Object.prototype.toString.call(object);
+}
+
 function isString(object) {
     return typeof object === 'string';
 }
+function isNumber(object) {
+    return typeof object === 'number';
+}
+function isBoolean(object) {
+    return typeof object === 'boolean';
+}
+function isObject(object) {
+    return toString(object) === '[object Object]';
+}
+// eslint-disable-next-line @typescript-eslint/ban-types
+function isFunction(object) {
+    return typeof object === 'function';
+}
 
-function ensureJoin(object, separator = ',') {
+/**
+ * Joins an array's items or do nothing if it is joined already.
+ *
+ * @category Array
+ */
+function join(object, separator = ',') {
     if (isString(object)) {
         return object;
     }
     return object.join(separator);
 }
 
-function noop() { }
+/**
+ * Removes an item from an array by mutating it.
+ * @throws An error if the object to be removed does not exist inside the array.
+ *
+ * @category Array
+ */
+function remove(array, object) {
+    const index = array.indexOf(object);
+    if (index === -1) {
+        throw new Error('Provided value does not exist inside the array.');
+    }
+    array.splice(index, 1);
+}
 
 function asserted(object) {
     if (object === null || object === undefined) {
@@ -34,6 +69,11 @@ function isNotNullish(object) {
     return object !== null && object !== undefined;
 }
 
+/**
+ * A wrapper around `setTimeout`.
+ *
+ * @category Promise
+ */
 async function sleep(milliSeconds) {
     return new Promise((resolve) => {
         setTimeout(resolve, milliSeconds);
@@ -123,4 +163,18 @@ async function removeFiles({ folderPath, filter }) {
     }
 }
 
-export { asserted, ensureJoin, isFalsy, isNotNullish, isNullish, isString, isTruthy, listFiles, listFolders, listFoldersSync, noop, removeFiles, sleep };
+async function readJSON(filePath, withComments = false) {
+    const stringJSON = await fsp.readFile(filePath, 'utf-8');
+    if (withComments === true) {
+        try {
+            const { default: JSON5 } = await import('json5');
+            return JSON5.parse(stringJSON);
+        }
+        catch (exception) {
+            throw new Error(exception.message);
+        }
+    }
+    return JSON.parse(stringJSON);
+}
+
+export { asserted, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, readJSON, remove, removeFiles, sleep, toString };

@@ -21,7 +21,7 @@ export default [
         format,
       };
     }),
-    external: ['node:path', 'node:fs', 'node:fs/promises', 'inquirer'],
+    external: ['node:path', 'node:fs', 'node:fs/promises', 'inquirer', 'json5'],
     plugins: [
       typescript({
         include: ['./src/**/*.ts', './node_modules/@violentmonkey/types/index.d.ts'],

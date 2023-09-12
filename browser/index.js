@@ -1,15 +1,50 @@
+function noop() { }
+function toString(object) {
+    return Object.prototype.toString.call(object);
+}
+
 function isString(object) {
     return typeof object === 'string';
 }
+function isNumber(object) {
+    return typeof object === 'number';
+}
+function isBoolean(object) {
+    return typeof object === 'boolean';
+}
+function isObject(object) {
+    return toString(object) === '[object Object]';
+}
+// eslint-disable-next-line @typescript-eslint/ban-types
+function isFunction(object) {
+    return typeof object === 'function';
+}
 
-function ensureJoin(object, separator = ',') {
+/**
+ * Joins an array's items or do nothing if it is joined already.
+ *
+ * @category Array
+ */
+function join(object, separator = ',') {
     if (isString(object)) {
         return object;
     }
     return object.join(separator);
 }
 
-function noop() { }
+/**
+ * Removes an item from an array by mutating it.
+ * @throws An error if the object to be removed does not exist inside the array.
+ *
+ * @category Array
+ */
+function remove(array, object) {
+    const index = array.indexOf(object);
+    if (index === -1) {
+        throw new Error('Provided value does not exist inside the array.');
+    }
+    array.splice(index, 1);
+}
 
 function asserted(object) {
     if (object === null || object === undefined) {
@@ -30,6 +65,11 @@ function isNotNullish(object) {
     return object !== null && object !== undefined;
 }
 
+/**
+ * A wrapper around `setTimeout`.
+ *
+ * @category Promise
+ */
 async function sleep(milliSeconds) {
     return new Promise((resolve) => {
         setTimeout(resolve, milliSeconds);
@@ -152,14 +192,14 @@ const fishX = {
 };
 
 function $(selectors, parent) {
-    const element = (parent ?? document).querySelector(ensureJoin(selectors));
+    const element = (parent ?? document).querySelector(join(selectors));
     if (element === null) {
         throw new Error(`Couldn't find the element with the selector ${selectors}`);
     }
     return element;
 }
 function $$(selectors, parent) {
-    const elements = (parent ?? document).querySelectorAll(ensureJoin(selectors));
+    const elements = (parent ?? document).querySelectorAll(join(selectors));
     if (elements.length === 0) {
         throw new Error(`Couldn't find any element with the selector ${selectors}`);
     }
@@ -326,4 +366,4 @@ async function getOptions(flags) {
     return options;
 }
 
-export { $, $$, addStyle, alert, asserted, confirm, ensureJoin, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isFalsy, isNotNullish, isNullish, isString, isTruthy, logId, noop, pageLoad, prompt, scriptName, setSearchParam, sleep, tabURL };
+export { $, $$, addStyle, alert, asserted, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, pageLoad, prompt, remove, scriptName, setSearchParam, sleep, tabURL, toString };

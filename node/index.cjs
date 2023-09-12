@@ -4,18 +4,53 @@ var fs = require('node:fs');
 var fsp = require('node:fs/promises');
 var path = require('node:path');
 
+function noop() { }
+function toString(object) {
+    return Object.prototype.toString.call(object);
+}
+
 function isString(object) {
     return typeof object === 'string';
 }
+function isNumber(object) {
+    return typeof object === 'number';
+}
+function isBoolean(object) {
+    return typeof object === 'boolean';
+}
+function isObject(object) {
+    return toString(object) === '[object Object]';
+}
+// eslint-disable-next-line @typescript-eslint/ban-types
+function isFunction(object) {
+    return typeof object === 'function';
+}
 
-function ensureJoin(object, separator = ',') {
+/**
+ * Joins an array's items or do nothing if it is joined already.
+ *
+ * @category Array
+ */
+function join(object, separator = ',') {
     if (isString(object)) {
         return object;
     }
     return object.join(separator);
 }
 
-function noop() { }
+/**
+ * Removes an item from an array by mutating it.
+ * @throws An error if the object to be removed does not exist inside the array.
+ *
+ * @category Array
+ */
+function remove(array, object) {
+    const index = array.indexOf(object);
+    if (index === -1) {
+        throw new Error('Provided value does not exist inside the array.');
+    }
+    array.splice(index, 1);
+}
 
 function asserted(object) {
     if (object === null || object === undefined) {
@@ -36,6 +71,11 @@ function isNotNullish(object) {
     return object !== null && object !== undefined;
 }
 
+/**
+ * A wrapper around `setTimeout`.
+ *
+ * @category Promise
+ */
 async function sleep(milliSeconds) {
     return new Promise((resolve) => {
         setTimeout(resolve, milliSeconds);
@@ -125,16 +165,37 @@ async function removeFiles({ folderPath, filter }) {
     }
 }
 
+async function readJSON(filePath, withComments = false) {
+    const stringJSON = await fsp.readFile(filePath, 'utf-8');
+    if (withComments === true) {
+        try {
+            const { default: JSON5 } = await import('json5');
+            return JSON5.parse(stringJSON);
+        }
+        catch (exception) {
+            throw new Error(exception.message);
+        }
+    }
+    return JSON.parse(stringJSON);
+}
+
 exports.asserted = asserted;
-exports.ensureJoin = ensureJoin;
+exports.isBoolean = isBoolean;
 exports.isFalsy = isFalsy;
+exports.isFunction = isFunction;
 exports.isNotNullish = isNotNullish;
 exports.isNullish = isNullish;
+exports.isNumber = isNumber;
+exports.isObject = isObject;
 exports.isString = isString;
 exports.isTruthy = isTruthy;
+exports.join = join;
 exports.listFiles = listFiles;
 exports.listFolders = listFolders;
 exports.listFoldersSync = listFoldersSync;
 exports.noop = noop;
+exports.readJSON = readJSON;
+exports.remove = remove;
 exports.removeFiles = removeFiles;
 exports.sleep = sleep;
+exports.toString = toString;
