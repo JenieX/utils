@@ -1,6 +1,6 @@
 {
   "name": "@jeniex/utils",
-  "version": "1.0.15",
+  "version": "1.0.17",
   "author": "JenieX",
   "homepage": "https://github.com/JenieX/utils",
   "type": "module",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
-    "@jeniex/eslint-config": "^0.0.3",
+    "@jeniex/eslint-config": "^1.0.2",
     "@rollup/plugin-typescript": "^11.1.3",
     "@types/inquirer": "^9.0.3",
     "@types/node": "^20.5.7",
