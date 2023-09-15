@@ -40,7 +40,7 @@ function join(object, separator = ',') {
 
 /**
  * Removes an item from an array by mutating it.
- * @throws An error if the object to be removed does not exist inside the array.
+ * @throws an error if the object to be removed does not exist inside the array.
  *
  * @category Array
  */
@@ -83,12 +83,14 @@ async function sleep(milliSeconds) {
 }
 
 /**
- * Get a list of files that are present in the provided folder path.
- * If the provided folder path does not exists, it will return an empty array.
+ * Lists the files that are present in the provided folder path.
+ * @throws an error if the provided folder path does not exist.
+ *
+ * @category File-System
  */
 async function listFiles({ folderPath, getFullPath, filter }) {
     if (fs.existsSync(folderPath) === false) {
-        return [];
+        throw new Error('The provided folder path does not exist!');
     }
     const entries = await fsp.readdir(folderPath, {
         withFileTypes: true,
@@ -111,8 +113,10 @@ async function listFiles({ folderPath, getFullPath, filter }) {
 }
 
 /**
- * Get a list of folders that are present in the provided folder path.
- * If the provided folder path does not exists, an error will be thrown.
+ * Lists the folders that are present in the provided folder path.
+ * @throws an error if the provided folder path does not exist.
+ *
+ * @category File-System
  */
 async function listFolders({ folderPath, getFullPath }) {
     if (fs.existsSync(folderPath) === false) {
@@ -133,8 +137,10 @@ async function listFolders({ folderPath, getFullPath }) {
 }
 
 /**
- * Get a list of folders that are present in the provided folder path.
- * If the provided folder path does not exists, an error will be thrown.
+ * Lists the folders that are present in the provided folder path.
+ * @throws an error if the provided folder path does not exist.
+ *
+ * @category File-System
  */
 function listFoldersSync({ folderPath, getFullPath }) {
     if (fs.existsSync(folderPath) === false) {
@@ -154,6 +160,13 @@ function listFoldersSync({ folderPath, getFullPath }) {
     return folders;
 }
 
+/**
+ * Removes the files that are present in the provided folder path.
+ * @throws an error if the provided folder path does not exist.
+ * @throws an error if the files are outside or at the root of the project folder.
+ *
+ * @category File-System
+ */
 async function removeFiles({ folderPath, filter }) {
     const nestedFilePathPattern = `${path.resolve('./')}\\`;
     if (!folderPath.startsWith(nestedFilePathPattern)) {

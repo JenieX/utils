@@ -4,8 +4,10 @@ import path from 'node:path';
 import { ListFoldersOpt } from './types';
 
 /**
- * Get a list of folders that are present in the provided folder path.
- * If the provided folder path does not exists, an error will be thrown.
+ * Lists the folders that are present in the provided folder path.
+ * @throws an error if the provided folder path does not exist.
+ *
+ * @category File-System
  */
 async function listFolders({ folderPath, getFullPath }: ListFoldersOpt): Promise<string[]> {
   if (fs.existsSync(folderPath) === false) {

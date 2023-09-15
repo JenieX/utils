@@ -7,7 +7,7 @@ declare function join(object: string[] | string, separator?: string): string;
 
 /**
  * Removes an item from an array by mutating it.
- * @throws An error if the object to be removed does not exist inside the array.
+ * @throws an error if the object to be removed does not exist inside the array.
  *
  * @category Array
  */

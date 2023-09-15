@@ -7,7 +7,7 @@ declare function join(object: string[] | string, separator?: string): string;
 
 /**
  * Removes an item from an array by mutating it.
- * @throws An error if the object to be removed does not exist inside the array.
+ * @throws an error if the object to be removed does not exist inside the array.
  *
  * @category Array
  */
@@ -58,23 +58,36 @@ interface RemoveFilesOpt extends Omit<ListFilesOpt, 'getFullPath'> {
 }
 
 /**
- * Get a list of files that are present in the provided folder path.
- * If the provided folder path does not exists, it will return an empty array.
+ * Lists the files that are present in the provided folder path.
+ * @throws an error if the provided folder path does not exist.
+ *
+ * @category File-System
  */
 declare function listFiles({ folderPath, getFullPath, filter }: ListFilesOpt): Promise<string[]>;
 
 /**
- * Get a list of folders that are present in the provided folder path.
- * If the provided folder path does not exists, an error will be thrown.
+ * Lists the folders that are present in the provided folder path.
+ * @throws an error if the provided folder path does not exist.
+ *
+ * @category File-System
  */
 declare function listFolders({ folderPath, getFullPath }: ListFoldersOpt): Promise<string[]>;
 
 /**
- * Get a list of folders that are present in the provided folder path.
- * If the provided folder path does not exists, an error will be thrown.
+ * Lists the folders that are present in the provided folder path.
+ * @throws an error if the provided folder path does not exist.
+ *
+ * @category File-System
  */
 declare function listFoldersSync({ folderPath, getFullPath }: ListFoldersOpt): string[];
 
+/**
+ * Removes the files that are present in the provided folder path.
+ * @throws an error if the provided folder path does not exist.
+ * @throws an error if the files are outside or at the root of the project folder.
+ *
+ * @category File-System
+ */
 declare function removeFiles({ folderPath, filter }: RemoveFilesOpt): Promise<void>;
 
 declare function readJSON<T = object>(filePath: string, withComments?: boolean): Promise<T>;

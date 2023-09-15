@@ -4,12 +4,14 @@ import path from 'node:path';
 import { ListFilesOpt } from './types';
 
 /**
- * Get a list of files that are present in the provided folder path.
- * If the provided folder path does not exists, it will return an empty array.
+ * Lists the files that are present in the provided folder path.
+ * @throws an error if the provided folder path does not exist.
+ *
+ * @category File-System
  */
 async function listFiles({ folderPath, getFullPath, filter }: ListFilesOpt): Promise<string[]> {
   if (fs.existsSync(folderPath) === false) {
-    return [];
+    throw new Error('The provided folder path does not exist!');
   }
 
   const entries = await fsp.readdir(folderPath, {
