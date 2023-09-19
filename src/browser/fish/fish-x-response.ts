@@ -16,8 +16,10 @@ async function fishXResponse(url: string, fishOptions?: FishXOptions): Promise<R
       timeout: timeOut,
       onprogress: onProgress,
       onload({ response, statusText, status, finalUrl }) {
+        const isFileURL = finalUrl.startsWith('file:///');
         const ok = status >= 200 && status < 300;
-        if (!ok) {
+
+        if (!ok && !isFileURL) {
           reject(new Error(`Request to ${url} ended with ${status} status.`));
 
           return;
@@ -25,7 +27,7 @@ async function fishXResponse(url: string, fishOptions?: FishXOptions): Promise<R
 
         const properResponse = new Response(response, {
           statusText,
-          status,
+          status: isFileURL ? 200 : status,
         });
 
         Object.defineProperty(properResponse, 'url', { value: finalUrl });

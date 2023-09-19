@@ -37,6 +37,9 @@ declare function sleep(milliSeconds: number): Promise<void>;
 
 type Nullable<T> = T | null | undefined;
 type Fn<T = void, U = any> = (param?: U) => T;
+type Prettify<T> = {
+    [KeyType in keyof T]: T[KeyType];
+} & {};
 
 interface ListBaseOpt {
     /** The absolute path of the target folder. */
@@ -92,4 +95,4 @@ declare function removeFiles({ folderPath, filter }: RemoveFilesOpt): Promise<vo
 
 declare function readJSON<T = object>(filePath: string, withComments?: boolean): Promise<T>;
 
-export { Fn, Nullable, asserted, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, readJSON, remove, removeFiles, sleep, toString };
+export { Fn, Nullable, Prettify, asserted, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, readJSON, remove, removeFiles, sleep, toString };

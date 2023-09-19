@@ -37,6 +37,9 @@ declare function sleep(milliSeconds: number): Promise<void>;
 
 type Nullable<T> = T | null | undefined;
 type Fn<T = void, U = any> = (param?: U) => T;
+type Prettify<T> = {
+    [KeyType in keyof T]: T[KeyType];
+} & {};
 
 declare function alert(message?: string): void;
 declare function confirm(message: string): boolean;
@@ -129,4 +132,4 @@ type Options = Record<string, FlagValue>;
 
 declare function getOptions(flags: Flag[]): Promise<Options>;
 
-export { $, $$, Flag, Fn, Nullable, addStyle, alert, asserted, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, pageLoad, prompt, remove, scriptName, setSearchParam, sleep, tabURL, toString };
+export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, pageLoad, prompt, remove, scriptName, setSearchParam, sleep, tabURL, toString };
