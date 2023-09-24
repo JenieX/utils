@@ -78,6 +78,53 @@ async function sleep(milliSeconds) {
     });
 }
 
+/**
+ * Adds leading zeros to a number.
+ *
+ * @category String
+ */
+function padZeros(number, length) {
+    if (Math.abs(number).toString().length > length) {
+        throw new Error('Provided length can not be less than the digits of the number.');
+    }
+    if (number < 0) {
+        throw new Error('Provided number must be greater than zero.');
+    }
+    const padded = '0'.repeat(length - 1) + number;
+    if (number < 10) {
+        return padded;
+    }
+    return padded.slice(-length);
+}
+
+const lowercaseWords = new Set([
+    'a', 'an', 'the',
+    'and', 'but', 'for', 'nor', 'or', 'so', 'yet',
+    'about', 'across', 'after', 'along', 'among', 'around', 'as', 'at', 'before', 'between', 'by', 'during', 'in', 'into', 'of', 'on', 'over', 'since', 'through', 'throughout', 'to', 'under', 'with', 'within',
+    'away', 'back', 'down', 'far', 'off', 'on', 'out', 'up',
+    'he', 'her', 'him', 'his', 'it', 'its', 'me', 'my', 'our', 'she', 'their', 'them', 'they', 'us', 'we', 'you', 'your',
+]);
+function capitalizeWord(word) {
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
+}
+/**
+ * capitalizes a word or a sentence.
+ *
+ * @category String
+ */
+function capitalize(sentence) {
+    if (sentence.includes(' ')) {
+        return sentence.split(' ').map((word, index) => {
+            const lowercaseWord = word.toLowerCase();
+            if (index > 0 && lowercaseWords.has(lowercaseWord)) {
+                return lowercaseWord;
+            }
+            return capitalizeWord(word);
+        }).join(' ');
+    }
+    return capitalizeWord(sentence);
+}
+
 let infoObject;
 if (typeof GM !== 'undefined') {
     infoObject = GM.info;
@@ -197,14 +244,14 @@ const fishX = {
 function $(selectors, parent) {
     const element = (parent ?? document).querySelector(join(selectors));
     if (element === null) {
-        throw new Error(`Couldn't find the element with the selector ${selectors}`);
+        throw new Error(`Could not find the element with the selector ${selectors}`);
     }
     return element;
 }
 function $$(selectors, parent) {
     const elements = (parent ?? document).querySelectorAll(join(selectors));
     if (elements.length === 0) {
-        throw new Error(`Couldn't find any element with the selector ${selectors}`);
+        throw new Error(`Could not find any element with the selector ${selectors}`);
     }
     return elements;
 }
@@ -374,6 +421,7 @@ exports.$$ = $$;
 exports.addStyle = addStyle;
 exports.alert = alert;
 exports.asserted = asserted;
+exports.capitalize = capitalize;
 exports.confirm = confirm;
 exports.fish = fish;
 exports.fishResponse = fishResponse;
@@ -394,6 +442,7 @@ exports.isTruthy = isTruthy;
 exports.join = join;
 exports.logId = logId;
 exports.noop = noop;
+exports.padZeros = padZeros;
 exports.pageLoad = pageLoad;
 exports.prompt = prompt;
 exports.remove = remove;

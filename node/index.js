@@ -81,6 +81,53 @@ async function sleep(milliSeconds) {
 }
 
 /**
+ * Adds leading zeros to a number.
+ *
+ * @category String
+ */
+function padZeros(number, length) {
+    if (Math.abs(number).toString().length > length) {
+        throw new Error('Provided length can not be less than the digits of the number.');
+    }
+    if (number < 0) {
+        throw new Error('Provided number must be greater than zero.');
+    }
+    const padded = '0'.repeat(length - 1) + number;
+    if (number < 10) {
+        return padded;
+    }
+    return padded.slice(-length);
+}
+
+const lowercaseWords = new Set([
+    'a', 'an', 'the',
+    'and', 'but', 'for', 'nor', 'or', 'so', 'yet',
+    'about', 'across', 'after', 'along', 'among', 'around', 'as', 'at', 'before', 'between', 'by', 'during', 'in', 'into', 'of', 'on', 'over', 'since', 'through', 'throughout', 'to', 'under', 'with', 'within',
+    'away', 'back', 'down', 'far', 'off', 'on', 'out', 'up',
+    'he', 'her', 'him', 'his', 'it', 'its', 'me', 'my', 'our', 'she', 'their', 'them', 'they', 'us', 'we', 'you', 'your',
+]);
+function capitalizeWord(word) {
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
+}
+/**
+ * capitalizes a word or a sentence.
+ *
+ * @category String
+ */
+function capitalize(sentence) {
+    if (sentence.includes(' ')) {
+        return sentence.split(' ').map((word, index) => {
+            const lowercaseWord = word.toLowerCase();
+            if (index > 0 && lowercaseWords.has(lowercaseWord)) {
+                return lowercaseWord;
+            }
+            return capitalizeWord(word);
+        }).join(' ');
+    }
+    return capitalizeWord(sentence);
+}
+
+/**
  * Lists the files that are present in the provided folder path.
  * @throws an error if the provided folder path does not exist.
  *
@@ -190,4 +237,4 @@ async function readJSON(filePath, withComments = false) {
     return JSON.parse(stringJSON);
 }
 
-export { asserted, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, readJSON, remove, removeFiles, sleep, toString };
+export { asserted, capitalize, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, padZeros, readJSON, remove, removeFiles, sleep, toString };

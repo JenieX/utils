@@ -35,6 +35,20 @@ declare function isFunction<T extends Function>(object: unknown): object is T;
  */
 declare function sleep(milliSeconds: number): Promise<void>;
 
+/**
+ * Adds leading zeros to a number.
+ *
+ * @category String
+ */
+declare function padZeros(number: number, length: number): string;
+
+/**
+ * capitalizes a word or a sentence.
+ *
+ * @category String
+ */
+declare function capitalize(sentence: string): string;
+
 type Nullable<T> = T | null | undefined;
 type Fn<T = void, U = any> = (param?: U) => T;
 type Prettify<T> = {
@@ -132,4 +146,4 @@ type Options = Record<string, FlagValue>;
 
 declare function getOptions(flags: Flag[]): Promise<Options>;
 
-export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, pageLoad, prompt, remove, scriptName, setSearchParam, sleep, tabURL, toString };
+export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, scriptName, setSearchParam, sleep, tabURL, toString };

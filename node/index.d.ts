@@ -35,6 +35,20 @@ declare function isFunction<T extends Function>(object: unknown): object is T;
  */
 declare function sleep(milliSeconds: number): Promise<void>;
 
+/**
+ * Adds leading zeros to a number.
+ *
+ * @category String
+ */
+declare function padZeros(number: number, length: number): string;
+
+/**
+ * capitalizes a word or a sentence.
+ *
+ * @category String
+ */
+declare function capitalize(sentence: string): string;
+
 type Nullable<T> = T | null | undefined;
 type Fn<T = void, U = any> = (param?: U) => T;
 type Prettify<T> = {
@@ -95,4 +109,4 @@ declare function removeFiles({ folderPath, filter }: RemoveFilesOpt): Promise<vo
 
 declare function readJSON<T = object>(filePath: string, withComments?: boolean): Promise<T>;
 
-export { Fn, Nullable, Prettify, asserted, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, readJSON, remove, removeFiles, sleep, toString };
+export { Fn, Nullable, Prettify, asserted, capitalize, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, padZeros, readJSON, remove, removeFiles, sleep, toString };
