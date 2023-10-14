@@ -100,6 +100,11 @@ declare function getSearchParam(key: string, fullURL?: string): string | undefin
  * @param fullURL If provided, it will be our target, otherwise it is the current location.
  */
 declare function setSearchParam(key: string, value: string, fullURL?: string): string;
+/**
+ * @param keys The names of the param in the search query.
+ * @param fullURL If provided, it will be our target, otherwise it is the current location.
+ */
+declare function removeSearchParams(keys: string[], fullURL?: string): string;
 
 declare const scriptName: string;
 /** The identifier of the script to be used in logging. */
@@ -146,4 +151,4 @@ type Options = Record<string, FlagValue>;
 
 declare function getOptions(flags: Flag[]): Promise<Options>;
 
-export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, scriptName, setSearchParam, sleep, tabURL, toString };
+export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, scriptName, setSearchParam, sleep, tabURL, toString };

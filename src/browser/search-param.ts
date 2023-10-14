@@ -35,4 +35,30 @@ function setSearchParam(key: string, value: string, fullURL?: string): string {
   return updatedURL.join('');
 }
 
-export { getSearchParam, setSearchParam };
+/**
+ * @param keys The names of the param in the search query.
+ * @param fullURL If provided, it will be our target, otherwise it is the current location.
+ */
+function removeSearchParams(keys: string[], fullURL?: string): string {
+  const updatedURL: string[] = [];
+  const { origin, pathname, search, hash } = new URL(fullURL ?? window.location.href);
+  const searchParams = new URLSearchParams(search);
+
+  for (const key of keys) {
+    searchParams.delete(key);
+  }
+
+  updatedURL.push(origin, pathname);
+
+  if (searchParams.toString() !== '') {
+    updatedURL.push('?', searchParams.toString());
+  }
+
+  if (hash !== '') {
+    updatedURL.push(hash);
+  }
+
+  return updatedURL.join('');
+}
+
+export { getSearchParam, setSearchParam, removeSearchParams };

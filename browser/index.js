@@ -284,6 +284,26 @@ function setSearchParam(key, value, fullURL) {
     }
     return updatedURL.join('');
 }
+/**
+ * @param keys The names of the param in the search query.
+ * @param fullURL If provided, it will be our target, otherwise it is the current location.
+ */
+function removeSearchParams(keys, fullURL) {
+    const updatedURL = [];
+    const { origin, pathname, search, hash } = new URL(fullURL ?? window.location.href);
+    const searchParams = new URLSearchParams(search);
+    for (const key of keys) {
+        searchParams.delete(key);
+    }
+    updatedURL.push(origin, pathname);
+    if (searchParams.toString() !== '') {
+        updatedURL.push('?', searchParams.toString());
+    }
+    if (hash !== '') {
+        updatedURL.push(hash);
+    }
+    return updatedURL.join('');
+}
 
 function addStyle(css, parent = document.documentElement) {
     const style = document.createElement('style');
@@ -414,4 +434,4 @@ async function getOptions(flags) {
     return options;
 }
 
-export { $, $$, addStyle, alert, asserted, capitalize, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, scriptName, setSearchParam, sleep, tabURL, toString };
+export { $, $$, addStyle, alert, asserted, capitalize, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, scriptName, setSearchParam, sleep, tabURL, toString };

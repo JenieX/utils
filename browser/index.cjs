@@ -286,6 +286,26 @@ function setSearchParam(key, value, fullURL) {
     }
     return updatedURL.join('');
 }
+/**
+ * @param keys The names of the param in the search query.
+ * @param fullURL If provided, it will be our target, otherwise it is the current location.
+ */
+function removeSearchParams(keys, fullURL) {
+    const updatedURL = [];
+    const { origin, pathname, search, hash } = new URL(fullURL ?? window.location.href);
+    const searchParams = new URLSearchParams(search);
+    for (const key of keys) {
+        searchParams.delete(key);
+    }
+    updatedURL.push(origin, pathname);
+    if (searchParams.toString() !== '') {
+        updatedURL.push('?', searchParams.toString());
+    }
+    if (hash !== '') {
+        updatedURL.push(hash);
+    }
+    return updatedURL.join('');
+}
 
 function addStyle(css, parent = document.documentElement) {
     const style = document.createElement('style');
@@ -446,6 +466,7 @@ exports.padZeros = padZeros;
 exports.pageLoad = pageLoad;
 exports.prompt = prompt;
 exports.remove = remove;
+exports.removeSearchParams = removeSearchParams;
 exports.scriptName = scriptName;
 exports.setSearchParam = setSearchParam;
 exports.sleep = sleep;
