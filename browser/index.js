@@ -305,14 +305,19 @@ function removeSearchParams(keys, fullURL) {
     return updatedURL.join('');
 }
 
+/**
+ * Checks if the VPN is active by accessing the router address.
+ * Tested on Opera browser build-in VPN only.
+ */
 async function checkVPN() {
-    let pass;
+    let pass = false;
     try {
         await fishXResponse('http://192.168.1.1/index.html', { method: 'HEAD' });
-        pass = false;
     }
-    catch {
-        pass = true;
+    catch (exception) {
+        if (exception.message.includes('ended with 0 status')) {
+            pass = true;
+        }
     }
     if (pass === false) {
         throw new Error('VPN is not enabled!');

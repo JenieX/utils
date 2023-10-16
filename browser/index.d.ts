@@ -112,6 +112,10 @@ declare const logId: string;
 /** The initial tab URL on the script run. */
 declare const tabURL: string;
 
+/**
+ * Checks if the VPN is active by accessing the router address.
+ * Tested on Opera browser build-in VPN only.
+ */
 declare function checkVPN(): Promise<void>;
 declare function checkVPNRandomly(): Promise<void>;
 

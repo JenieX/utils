@@ -1,14 +1,19 @@
 import { fishXResponse } from './fish';
 
+/**
+ * Checks if the VPN is active by accessing the router address.
+ * Tested on Opera browser build-in VPN only.
+ */
 async function checkVPN(): Promise<void> {
-  let pass: boolean;
+  let pass = false;
 
   try {
     await fishXResponse('http://192.168.1.1/index.html', { method: 'HEAD' });
-    pass = false;
   }
-  catch {
-    pass = true;
+  catch (exception) {
+    if ((exception as Error).message.includes('ended with 0 status')) {
+      pass = true;
+    }
   }
 
   if (pass === false) {
