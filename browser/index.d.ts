@@ -112,6 +112,9 @@ declare const logId: string;
 /** The initial tab URL on the script run. */
 declare const tabURL: string;
 
+declare function checkVPN(): Promise<void>;
+declare function checkVPNRandomly(): Promise<void>;
+
 declare function addStyle(css: string, parent?: HTMLElement): HTMLStyleElement;
 
 /**
@@ -153,4 +156,4 @@ type Options = Record<string, FlagValue>;
 
 declare function getOptions(flags: Flag[]): Promise<Options>;
 
-export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };
+export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };

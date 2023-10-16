@@ -4,6 +4,7 @@ export * from './fish';
 export * from './query';
 export * from './search-param';
 export * from './variables';
+export { checkVPN, checkVPNRandomly } from './check-vpn';
 export { default as addStyle } from './add-style';
 export { default as imageLoad } from './image-load';
 export { default as pageLoad } from './page-load';

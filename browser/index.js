@@ -305,6 +305,27 @@ function removeSearchParams(keys, fullURL) {
     return updatedURL.join('');
 }
 
+async function checkVPN() {
+    let pass;
+    try {
+        await fishXResponse('http://192.168.1.1/index.html', { method: 'HEAD' });
+        pass = false;
+    }
+    catch {
+        pass = true;
+    }
+    if (pass === false) {
+        throw new Error('VPN is not enabled!');
+    }
+}
+async function checkVPNRandomly() {
+    // a 1/10 chance to check.
+    if (Math.floor(Math.random() * 10) === 0) {
+        await checkVPN();
+        console.log('%cPass check for VPN!', 'color: #04da79');
+    }
+}
+
 function addStyle(css, parent = document.documentElement) {
     const style = document.createElement('style');
     style.setAttribute('type', 'text/css');
@@ -443,4 +464,4 @@ async function getOptions(flags) {
     return options;
 }
 
-export { $, $$, addStyle, alert, asserted, capitalize, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };
+export { $, $$, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };
