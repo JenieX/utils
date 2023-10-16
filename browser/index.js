@@ -128,11 +128,11 @@ if (typeof GM !== 'undefined') {
     infoObject = GM.info;
     // eslint-disable-next-line unicorn/no-negated-condition
 }
-else if (typeof GM_info !== 'undefined') {
-    infoObject = GM_info;
+else if (typeof GM_info === 'undefined') {
+    infoObject = { script: { name: document.title } };
 }
 else {
-    infoObject = { script: { name: document.title } };
+    infoObject = GM_info;
 }
 const scriptName = infoObject.script.name;
 /** The identifier of the script to be used in logging. */
@@ -359,6 +359,15 @@ async function pageLoad(completely) {
     });
 }
 
+function saveFile(blob, fileName) {
+    const blobURL = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = blobURL;
+    link.download = fileName;
+    link.dispatchEvent(new MouseEvent('click'));
+    window.setTimeout(() => window.URL.revokeObjectURL(blobURL), 1000);
+}
+
 function createFlagMessage(flag) {
     const { message: messageHeader, values, type } = flag;
     let message = messageHeader;
@@ -434,4 +443,4 @@ async function getOptions(flags) {
     return options;
 }
 
-export { $, $$, addStyle, alert, asserted, capitalize, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, scriptName, setSearchParam, sleep, tabURL, toString };
+export { $, $$, addStyle, alert, asserted, capitalize, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };

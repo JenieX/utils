@@ -130,11 +130,11 @@ if (typeof GM !== 'undefined') {
     infoObject = GM.info;
     // eslint-disable-next-line unicorn/no-negated-condition
 }
-else if (typeof GM_info !== 'undefined') {
-    infoObject = GM_info;
+else if (typeof GM_info === 'undefined') {
+    infoObject = { script: { name: document.title } };
 }
 else {
-    infoObject = { script: { name: document.title } };
+    infoObject = GM_info;
 }
 const scriptName = infoObject.script.name;
 /** The identifier of the script to be used in logging. */
@@ -361,6 +361,15 @@ async function pageLoad(completely) {
     });
 }
 
+function saveFile(blob, fileName) {
+    const blobURL = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = blobURL;
+    link.download = fileName;
+    link.dispatchEvent(new MouseEvent('click'));
+    window.setTimeout(() => window.URL.revokeObjectURL(blobURL), 1000);
+}
+
 function createFlagMessage(flag) {
     const { message: messageHeader, values, type } = flag;
     let message = messageHeader;
@@ -467,6 +476,7 @@ exports.pageLoad = pageLoad;
 exports.prompt = prompt;
 exports.remove = remove;
 exports.removeSearchParams = removeSearchParams;
+exports.saveFile = saveFile;
 exports.scriptName = scriptName;
 exports.setSearchParam = setSearchParam;
 exports.sleep = sleep;

@@ -7,6 +7,7 @@ export * from './variables';
 export { default as addStyle } from './add-style';
 export { default as imageLoad } from './image-load';
 export { default as pageLoad } from './page-load';
+export { default as saveFile } from './save-file';
 
 export type { Flag } from './get-options';
 export { default as getOptions } from './get-options';

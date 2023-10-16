@@ -125,6 +125,8 @@ declare function imageLoad(img: HTMLImageElement): Promise<void>;
  */
 declare function pageLoad(completely?: boolean): Promise<void>;
 
+declare function saveFile(blob: Blob, fileName: string): void;
+
 interface FlagBase {
     name: string;
     message: string;
@@ -151,4 +153,4 @@ type Options = Record<string, FlagValue>;
 
 declare function getOptions(flags: Flag[]): Promise<Options>;
 
-export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, scriptName, setSearchParam, sleep, tabURL, toString };
+export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };
