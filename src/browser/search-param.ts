@@ -3,8 +3,7 @@
  * @param fullURL If provided, it will be our target, otherwise it is the current location.
  */
 function getSearchParam(key: string, fullURL?: string): string | undefined {
-  const { search } = new URL(fullURL ?? window.location.href);
-  const searchParams = new URLSearchParams(search);
+  const { searchParams } = new URL(fullURL ?? window.location.href);
   const value = searchParams.get(key);
   if (value === null) {
     return undefined;
