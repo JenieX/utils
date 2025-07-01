@@ -124,8 +124,6 @@ function capitalize(sentence) {
 }
 
 const scriptName = GM.info.script.name;
-/** The identifier of the script to be used in logging. */
-const logId = `[${scriptName}]:`;
 /** The initial tab URL on the script run. */
 const tabURL = window.location.href;
 
@@ -459,6 +457,7 @@ async function getOptions(flags) {
 
 function customizeConsole(debug = false) {
     const base = window.console;
+    const logId = `[${scriptName}]:`;
     return {
         log: base.log.bind(base, logId),
         warn: base.warn.bind(base, logId),
@@ -467,4 +466,4 @@ function customizeConsole(debug = false) {
     };
 }
 
-export { $, $$, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, customizeConsole, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };
+export { $, $$, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, customizeConsole, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };

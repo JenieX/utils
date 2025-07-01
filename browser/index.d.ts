@@ -107,8 +107,6 @@ declare function setSearchParam(key: string, value: string, fullURL?: string): s
 declare function removeSearchParams(keys: string[], fullURL?: string): string;
 
 declare const scriptName: string;
-/** The identifier of the script to be used in logging. */
-declare const logId: string;
 /** The initial tab URL on the script run. */
 declare const tabURL: string;
 
@@ -169,4 +167,4 @@ interface CustomizedConsole {
 
 declare function customizeConsole(debug?: boolean): CustomizedConsole;
 
-export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, customizeConsole, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };
+export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, customizeConsole, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };

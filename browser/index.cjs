@@ -126,8 +126,6 @@ function capitalize(sentence) {
 }
 
 const scriptName = GM.info.script.name;
-/** The identifier of the script to be used in logging. */
-const logId = `[${scriptName}]:`;
 /** The initial tab URL on the script run. */
 const tabURL = window.location.href;
 
@@ -461,6 +459,7 @@ async function getOptions(flags) {
 
 function customizeConsole(debug = false) {
     const base = window.console;
+    const logId = `[${scriptName}]:`;
     return {
         log: base.log.bind(base, logId),
         warn: base.warn.bind(base, logId),
@@ -496,7 +495,6 @@ exports.isObject = isObject;
 exports.isString = isString;
 exports.isTruthy = isTruthy;
 exports.join = join;
-exports.logId = logId;
 exports.noop = noop;
 exports.padZeros = padZeros;
 exports.pageLoad = pageLoad;
