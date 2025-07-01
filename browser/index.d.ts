@@ -160,4 +160,13 @@ type Options = Record<string, FlagValue>;
 
 declare function getOptions(flags: Flag[]): Promise<Options>;
 
-export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };
+interface CustomizedConsole {
+    log: Console['log'];
+    warn: Console['warn'];
+    error: Console['error'];
+    debug: Console['debug'];
+}
+
+declare function customizeConsole(debug?: boolean): CustomizedConsole;
+
+export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, customizeConsole, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };

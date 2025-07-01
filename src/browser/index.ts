@@ -12,3 +12,5 @@ export { default as saveFile } from './save-file';
 
 export type { Flag } from './get-options';
 export { default as getOptions } from './get-options';
+
+export { customizeConsole } from './customize-console';

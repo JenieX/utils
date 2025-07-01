@@ -457,4 +457,14 @@ async function getOptions(flags) {
     return options;
 }
 
-export { $, $$, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };
+function customizeConsole(debug = false) {
+    const base = window.console;
+    return {
+        log: base.log.bind(base, logId),
+        warn: base.warn.bind(base, logId),
+        error: base.error.bind(base, logId),
+        debug: debug ? base.log.bind(base, logId) : noop,
+    };
+}
+
+export { $, $$, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, customizeConsole, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, logId, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };

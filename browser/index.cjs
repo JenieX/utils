@@ -459,6 +459,16 @@ async function getOptions(flags) {
     return options;
 }
 
+function customizeConsole(debug = false) {
+    const base = window.console;
+    return {
+        log: base.log.bind(base, logId),
+        warn: base.warn.bind(base, logId),
+        error: base.error.bind(base, logId),
+        debug: debug ? base.log.bind(base, logId) : noop,
+    };
+}
+
 exports.$ = $;
 exports.$$ = $$;
 exports.addStyle = addStyle;
@@ -468,6 +478,7 @@ exports.capitalize = capitalize;
 exports.checkVPN = checkVPN;
 exports.checkVPNRandomly = checkVPNRandomly;
 exports.confirm = confirm;
+exports.customizeConsole = customizeConsole;
 exports.fish = fish;
 exports.fishResponse = fishResponse;
 exports.fishX = fishX;
