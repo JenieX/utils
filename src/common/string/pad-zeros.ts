@@ -21,4 +21,4 @@ function padZeros(number: number, length: number): string {
   return padded.slice(-length);
 }
 
-export default padZeros;
+export { padZeros };

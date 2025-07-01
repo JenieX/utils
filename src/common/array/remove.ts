@@ -14,4 +14,4 @@ function remove<T>(array: T[], object: T): void {
   array.splice(index, 1);
 }
 
-export default remove;
+export { remove };

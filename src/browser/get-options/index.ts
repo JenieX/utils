@@ -25,4 +25,4 @@ async function getOptions(flags: Flag[]): Promise<Options> {
 }
 
 export type { Flag } from './types';
-export default getOptions;
+export { getOptions };

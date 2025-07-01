@@ -1,5 +1,5 @@
-import fishResponse from './fish-response';
-import fishXResponse from './fish-x-response';
+import { fishResponse } from './fish-response';
+import { fishXResponse } from './fish-x-response';
 
 async function fishBuffer<T extends object>(
   url: string,
@@ -11,4 +11,4 @@ async function fishBuffer<T extends object>(
   return response.arrayBuffer();
 }
 
-export default fishBuffer;
+export { fishBuffer };

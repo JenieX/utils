@@ -1,6 +1,6 @@
 import fsp from 'node:fs/promises';
 import path from 'node:path';
-import listFiles from './list-files';
+import { listFiles } from './list-files';
 import { RemoveFilesOpt } from './types';
 
 /**
@@ -24,4 +24,4 @@ async function removeFiles({ folderPath, filter }: RemoveFilesOpt): Promise<void
   }
 }
 
-export default removeFiles;
+export { removeFiles };

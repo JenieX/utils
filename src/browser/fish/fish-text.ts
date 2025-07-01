@@ -1,5 +1,5 @@
-import fishResponse from './fish-response';
-import fishXResponse from './fish-x-response';
+import { fishResponse } from './fish-response';
+import { fishXResponse } from './fish-x-response';
 
 async function fishText<T extends object>(url: string, options?: T, x?: true): Promise<string> {
   const response = await (x ? fishXResponse : fishResponse)(url, options);
@@ -7,4 +7,4 @@ async function fishText<T extends object>(url: string, options?: T, x?: true): P
   return response.text();
 }
 
-export default fishText;
+export { fishText };

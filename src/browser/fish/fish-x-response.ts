@@ -41,4 +41,4 @@ async function fishXResponse(url: string, fishOptions?: FishXOptions): Promise<R
   });
 }
 
-export default fishXResponse;
+export { fishXResponse };

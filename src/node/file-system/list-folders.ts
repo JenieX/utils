@@ -31,4 +31,4 @@ async function listFolders({ folderPath, getFullPath }: ListFoldersOpt): Promise
   return folders;
 }
 
-export default listFolders;
+export { listFolders };

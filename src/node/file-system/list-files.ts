@@ -39,4 +39,4 @@ async function listFiles({ folderPath, getFullPath, filter }: ListFilesOpt): Pro
   });
 }
 
-export default listFiles;
+export { listFiles };

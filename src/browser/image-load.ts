@@ -32,4 +32,4 @@ async function imageLoad(img: HTMLImageElement): Promise<void> {
   });
 }
 
-export default imageLoad;
+export { imageLoad };

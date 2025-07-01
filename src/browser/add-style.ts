@@ -7,4 +7,4 @@ function addStyle(css: string, parent = document.documentElement): HTMLStyleElem
   return style;
 }
 
-export default addStyle;
+export { addStyle };

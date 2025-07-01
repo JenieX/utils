@@ -30,4 +30,4 @@ function listFoldersSync({ folderPath, getFullPath }: ListFoldersOpt): string[] 
   return folders;
 }
 
-export default listFoldersSync;
+export { listFoldersSync };

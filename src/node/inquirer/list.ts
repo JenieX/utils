@@ -4,7 +4,7 @@ import { ListChoice } from './types';
 /**
  * Shows the user a list of options to select from.
  */
-export async function list(message: string, choices: (ListChoice)[]): Promise<ListChoice> {
+async function list(message: string, choices: (ListChoice)[]): Promise<ListChoice> {
   const { selectedChoice } = await inquirer.prompt([
     {
       type: 'list',
@@ -22,4 +22,4 @@ export async function list(message: string, choices: (ListChoice)[]): Promise<Li
   return selectedChoice;
 }
 
-export default list;
+export { list };

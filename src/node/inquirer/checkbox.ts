@@ -25,4 +25,4 @@ async function checkbox(message: string, choices: CheckboxChoice[]): Promise<Che
   return selectedChoices!;
 }
 
-export default checkbox;
+export { checkbox };

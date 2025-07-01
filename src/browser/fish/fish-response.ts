@@ -8,4 +8,4 @@ async function fishResponse(url: string, options?: RequestInit): Promise<Respons
   return response;
 }
 
-export default fishResponse;
+export { fishResponse };

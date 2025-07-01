@@ -20,4 +20,4 @@ async function pageLoad(completely?: boolean): Promise<void> {
   });
 }
 
-export default pageLoad;
+export { pageLoad };

@@ -31,4 +31,4 @@ function capitalize(sentence: string): string {
   return capitalizeWord(sentence);
 }
 
-export default capitalize;
+export { capitalize };

@@ -8,7 +8,8 @@ async function readJSON<T = object>(filePath: string, withComments = false): Pro
       const { default: JSON5 } = await import('json5');
 
       return JSON5.parse(stringJSON) as T;
-    } catch (exception) {
+    }
+    catch (exception) {
       throw new Error((exception as Error).message);
     }
   }
@@ -16,4 +17,4 @@ async function readJSON<T = object>(filePath: string, withComments = false): Pro
   return JSON.parse(stringJSON) as T;
 }
 
-export default readJSON;
+export { readJSON };

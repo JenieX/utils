@@ -1,5 +1,5 @@
-import fishResponse from './fish-response';
-import fishXResponse from './fish-x-response';
+import { fishResponse } from './fish-response';
+import { fishXResponse } from './fish-x-response';
 
 async function fishDocument<T extends object>(
   url: string,
@@ -14,4 +14,4 @@ async function fishDocument<T extends object>(
   return parser.parseFromString(responseText, 'text/html');
 }
 
-export default fishDocument;
+export { fishDocument };

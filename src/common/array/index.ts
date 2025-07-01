@@ -1,2 +1,2 @@
-export { default as join } from './join';
-export { default as remove } from './remove';
+export { join } from './join';
+export { remove } from './remove';

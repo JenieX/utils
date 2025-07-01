@@ -9,4 +9,4 @@ function saveFile(blob: Blob, fileName: string): void {
   window.setTimeout(() => window.URL.revokeObjectURL(blobURL), 1000);
 }
 
-export default saveFile;
+export { saveFile };

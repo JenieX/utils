@@ -13,4 +13,4 @@ function join(object: string[] | string, separator = ','): string {
   return object.join(separator);
 }
 
-export default join;
+export { join };

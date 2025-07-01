@@ -4,7 +4,7 @@ import inquirer from 'inquirer';
  * Gets the user confirmation.
  * @param defaultAnswer Defaults to false which is no.
  */
-export async function confirm(message: string, defaultAnswer = false): Promise<boolean> {
+async function confirm(message: string, defaultAnswer = false): Promise<boolean> {
   const { confirmValue } = await inquirer.prompt([
     {
       type: 'confirm',
@@ -22,4 +22,4 @@ export async function confirm(message: string, defaultAnswer = false): Promise<b
   return confirmValue;
 }
 
-export default confirm;
+export { confirm };

@@ -4,7 +4,7 @@ import { isFalsy } from '../../common';
 /**
  * Gets the user input if provided, otherwise throws an error.
  */
-export async function input(message: string): Promise<string> {
+async function input(message: string): Promise<string> {
   const { inputValue } = await inquirer.prompt([
     {
       type: 'input',
@@ -21,4 +21,4 @@ export async function input(message: string): Promise<string> {
   return inputValue;
 }
 
-export default input;
+export { input };

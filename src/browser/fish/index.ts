@@ -1,8 +1,8 @@
-import fishBlob from './fish-blob';
-import fishBuffer from './fish-buffer';
-import fishDocument from './fish-document';
-import fishJSON from './fish-json';
-import fishText from './fish-text';
+import { fishBlob } from './fish-blob';
+import { fishBuffer } from './fish-buffer';
+import { fishDocument } from './fish-document';
+import { fishJSON } from './fish-json';
+import { fishText } from './fish-text';
 import { Fish, FishXOptions } from './types';
 
 // https://httpbin.org/anything
@@ -23,6 +23,6 @@ const fishX: Fish<FishXOptions> = {
   text: async (url: string, options?: FishXOptions) => fishText(url, options, true),
 };
 
-export { default as fishResponse } from './fish-response';
-export { default as fishXResponse } from './fish-x-response';
+export { fishResponse } from './fish-response';
+export { fishXResponse } from './fish-x-response';
 export { fish, fishX };
