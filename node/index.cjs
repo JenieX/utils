@@ -244,6 +244,77 @@ async function readJSON(filePath, withComments = false) {
     return JSON.parse(stringJSON);
 }
 
+function createRequest(transport, url, options) {
+    const getResponse = async () => {
+        return transport(url, options);
+    };
+    return {
+        response: async () => {
+            return getResponse();
+        },
+        blob: async () => {
+            const response = await getResponse();
+            return response.blob();
+        },
+        buffer: async () => {
+            const response = await getResponse();
+            return response.arrayBuffer();
+        },
+        json: async () => {
+            const response = await getResponse();
+            return response.json();
+        },
+        text: async () => {
+            const response = await getResponse();
+            return response.text();
+        },
+        document: async () => {
+            const response = await getResponse();
+            const responseText = await response.text();
+            const parser = new DOMParser();
+            return parser.parseFromString(responseText, 'text/html');
+        },
+        multi: async (types) => {
+            const response = await getResponse();
+            const responses = { response };
+            if (types.includes('blob')) {
+                responses.blob = await response.clone().blob();
+            }
+            if (types.includes('buffer')) {
+                responses.buffer = await response.clone().arrayBuffer();
+            }
+            if (types.includes('json')) {
+                responses.json = (await response.clone().json());
+            }
+            if (types.includes('text')) {
+                responses.text = await response.clone().text();
+            }
+            if (types.includes('document')) {
+                const responseText = await response.clone().text();
+                const parser = new DOMParser();
+                responses.document = parser.parseFromString(responseText, 'text/html');
+            }
+            return responses;
+        },
+    };
+}
+
+function isFileURL(url) {
+    return url.startsWith('file:///');
+}
+
+async function fetchTransport(url, options) {
+    const response = await fetch(url, options);
+    if (!response.ok && !isFileURL(response.url)) {
+        throw new Error(`Request to ${response.url} ended with ${response.status} status.`);
+    }
+    return response;
+}
+
+function rq(url, options) {
+    return createRequest(fetchTransport, url, options);
+}
+
 exports.asserted = asserted;
 exports.capitalize = capitalize;
 exports.isBoolean = isBoolean;
@@ -264,6 +335,8 @@ exports.padZeros = padZeros;
 exports.readJSON = readJSON;
 exports.remove = remove;
 exports.removeFiles = removeFiles;
+exports.rq = rq;
+exports.rqc = createRequest;
 exports.sleep = sleep;
 exports.stringOrThrow = stringOrThrow;
 exports.toString = toString;

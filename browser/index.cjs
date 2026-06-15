@@ -473,6 +473,114 @@ function customizeConsole(debug = false) {
     };
 }
 
+function createRequest(transport, url, options) {
+    const getResponse = async () => {
+        return transport(url, options);
+    };
+    return {
+        response: async () => {
+            return getResponse();
+        },
+        blob: async () => {
+            const response = await getResponse();
+            return response.blob();
+        },
+        buffer: async () => {
+            const response = await getResponse();
+            return response.arrayBuffer();
+        },
+        json: async () => {
+            const response = await getResponse();
+            return response.json();
+        },
+        text: async () => {
+            const response = await getResponse();
+            return response.text();
+        },
+        document: async () => {
+            const response = await getResponse();
+            const responseText = await response.text();
+            const parser = new DOMParser();
+            return parser.parseFromString(responseText, 'text/html');
+        },
+        multi: async (types) => {
+            const response = await getResponse();
+            const responses = { response };
+            if (types.includes('blob')) {
+                responses.blob = await response.clone().blob();
+            }
+            if (types.includes('buffer')) {
+                responses.buffer = await response.clone().arrayBuffer();
+            }
+            if (types.includes('json')) {
+                responses.json = (await response.clone().json());
+            }
+            if (types.includes('text')) {
+                responses.text = await response.clone().text();
+            }
+            if (types.includes('document')) {
+                const responseText = await response.clone().text();
+                const parser = new DOMParser();
+                responses.document = parser.parseFromString(responseText, 'text/html');
+            }
+            return responses;
+        },
+    };
+}
+
+function isFileURL(url) {
+    return url.startsWith('file:///');
+}
+
+async function fetchTransport(url, options) {
+    const response = await fetch(url, options);
+    if (!response.ok && !isFileURL(response.url)) {
+        throw new Error(`Request to ${response.url} ended with ${response.status} status.`);
+    }
+    return response;
+}
+
+function rq(url, options) {
+    return createRequest(fetchTransport, url, options);
+}
+
+async function gmTransport(url, options) {
+    const { method, anonymous, headers, body, timeOut, onProgress } = options ?? {};
+    return new Promise((resolve, reject) => {
+        GM.xmlHttpRequest({
+            url,
+            method: method ?? 'GET',
+            headers,
+            /** Note: To manually set the 'cookie' header, you have to set 'anonymous' to true. */
+            anonymous,
+            data: body,
+            responseType: 'blob',
+            timeout: timeOut,
+            onprogress: onProgress,
+            onload({ response, statusText, status, finalUrl }) {
+                const ok = status >= 200 && status < 300;
+                if (!ok && !isFileURL(finalUrl)) {
+                    reject(new Error(`Request to ${url} ended with ${status} status.`));
+                    return;
+                }
+                const properResponse = new Response(response, {
+                    statusText,
+                    status: isFileURL(finalUrl) ? 200 : status,
+                });
+                Object.defineProperty(properResponse, 'url', { value: finalUrl });
+                resolve(properResponse);
+            },
+            onerror({ status }) {
+                reject(new Error(`Request to ${url} ended with ${status} status.`));
+            },
+        });
+    });
+}
+
+function rx(url, options) {
+    return createRequest(gmTransport, url, options);
+}
+
 exports.$ = $;
 exports.$$ = $$;
 exports.addStyle = addStyle;
@@ -506,6 +614,9 @@ exports.pageLoad = pageLoad;
 exports.prompt = prompt;
 exports.remove = remove;
 exports.removeSearchParams = removeSearchParams;
+exports.rq = rq;
+exports.rqc = createRequest;
+exports.rx = rx;
 exports.saveFile = saveFile;
 exports.scriptName = scriptName;
 exports.setSearchParam = setSearchParam;

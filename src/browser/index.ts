@@ -14,3 +14,7 @@ export type { Flag } from './get-options';
 export { getOptions } from './get-options';
 
 export { customizeConsole } from './customize-console';
+
+export { rq } from '../common/rq';
+export { rx } from '../common/rq';
+export { rqc } from '../common/rq';

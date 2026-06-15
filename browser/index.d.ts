@@ -60,9 +60,9 @@ declare function alert(message?: string): void;
 declare function confirm(message: string): boolean;
 declare function prompt(message: string, _default?: string): string | null;
 
-type Method = 'CONNECT' | 'DELETE' | 'GET' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'POST' | 'PUT' | 'TRACE';
+type Method$1 = 'CONNECT' | 'DELETE' | 'GET' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'POST' | 'PUT' | 'TRACE';
 interface FishXOptions {
-    method?: Method;
+    method?: Method$1;
     anonymous?: boolean;
     headers?: Record<string, string>;
     body?: Blob | FormData | string;
@@ -168,4 +168,39 @@ interface CustomizedConsole {
 
 declare function customizeConsole(debug?: boolean): CustomizedConsole;
 
-export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, customizeConsole, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, stringOrThrow, tabURL, toString };
+type Method = 'CONNECT' | 'DELETE' | 'GET' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'POST' | 'PUT' | 'TRACE';
+interface RxOptions {
+    method?: Method;
+    anonymous?: boolean;
+    headers?: Record<string, string>;
+    body?: Blob | FormData | string;
+    timeOut?: number;
+    onProgress?: (response: VMScriptResponseObject<Blob>) => Promise<void> | void;
+}
+interface RqRequest {
+    response: () => Promise<Response>;
+    blob: () => Promise<Blob>;
+    buffer: () => Promise<ArrayBuffer>;
+    json: <T = unknown>() => Promise<T>;
+    text: () => Promise<string>;
+    document: () => Promise<Document>;
+    multi: <T = unknown>(types: ResponseType[]) => Promise<Responses<T>>;
+}
+type Transport<TOptions = unknown> = (url: string, options?: TOptions) => Promise<Response>;
+type ResponseType = 'blob' | 'buffer' | 'document' | 'json' | 'text';
+interface Responses<T> {
+    response?: Response;
+    blob?: Blob;
+    buffer?: ArrayBuffer;
+    json?: T;
+    text?: string;
+    document?: Document;
+}
+
+declare function rq(url: string, options?: RequestInit): RqRequest;
+
+declare function rx(url: string, options?: RxOptions): RqRequest;
+
+declare function createRequest<TOptions>(transport: Transport<TOptions>, url: string, options?: TOptions): RqRequest;
+
+export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, customizeConsole, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, rq, createRequest as rqc, rx, saveFile, scriptName, setSearchParam, sleep, stringOrThrow, tabURL, toString };

@@ -110,4 +110,28 @@ declare function removeFiles({ folderPath, filter }: RemoveFilesOpt): Promise<vo
 
 declare function readJSON<T = object>(filePath: string, withComments?: boolean): Promise<T>;
 
-export { Fn, Nullable, Prettify, asserted, capitalize, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, padZeros, readJSON, remove, removeFiles, sleep, stringOrThrow, toString };
+interface RqRequest {
+    response: () => Promise<Response>;
+    blob: () => Promise<Blob>;
+    buffer: () => Promise<ArrayBuffer>;
+    json: <T = unknown>() => Promise<T>;
+    text: () => Promise<string>;
+    document: () => Promise<Document>;
+    multi: <T = unknown>(types: ResponseType[]) => Promise<Responses<T>>;
+}
+type Transport<TOptions = unknown> = (url: string, options?: TOptions) => Promise<Response>;
+type ResponseType = 'blob' | 'buffer' | 'document' | 'json' | 'text';
+interface Responses<T> {
+    response?: Response;
+    blob?: Blob;
+    buffer?: ArrayBuffer;
+    json?: T;
+    text?: string;
+    document?: Document;
+}
+
+declare function rq(url: string, options?: RequestInit): RqRequest;
+
+declare function createRequest<TOptions>(transport: Transport<TOptions>, url: string, options?: TOptions): RqRequest;
+
+export { Fn, Nullable, Prettify, asserted, capitalize, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, padZeros, readJSON, remove, removeFiles, rq, createRequest as rqc, sleep, stringOrThrow, toString };
