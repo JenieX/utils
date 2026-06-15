@@ -17,6 +17,7 @@ declare function noop(): void;
 declare function toString(object: unknown): string;
 
 declare function asserted<T>(object: T | null | undefined): T;
+declare function stringOrThrow(value: unknown): asserts value is string;
 declare function isTruthy<T>(object: T): object is Exclude<T, '' | 0 | false | null | undefined>;
 declare function isFalsy(object: unknown): object is '' | 0 | false | null | undefined;
 declare function isNullish(object: unknown): object is null | undefined;
@@ -109,4 +110,4 @@ declare function removeFiles({ folderPath, filter }: RemoveFilesOpt): Promise<vo
 
 declare function readJSON<T = object>(filePath: string, withComments?: boolean): Promise<T>;
 
-export { Fn, Nullable, Prettify, asserted, capitalize, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, padZeros, readJSON, remove, removeFiles, sleep, toString };
+export { Fn, Nullable, Prettify, asserted, capitalize, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, padZeros, readJSON, remove, removeFiles, sleep, stringOrThrow, toString };

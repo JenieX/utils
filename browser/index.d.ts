@@ -17,6 +17,7 @@ declare function noop(): void;
 declare function toString(object: unknown): string;
 
 declare function asserted<T>(object: T | null | undefined): T;
+declare function stringOrThrow(value: unknown): asserts value is string;
 declare function isTruthy<T>(object: T): object is Exclude<T, '' | 0 | false | null | undefined>;
 declare function isFalsy(object: unknown): object is '' | 0 | false | null | undefined;
 declare function isNullish(object: unknown): object is null | undefined;
@@ -167,4 +168,4 @@ interface CustomizedConsole {
 
 declare function customizeConsole(debug?: boolean): CustomizedConsole;
 
-export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, customizeConsole, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };
+export { $, $$, Flag, Fn, Nullable, Prettify, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, customizeConsole, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, stringOrThrow, tabURL, toString };

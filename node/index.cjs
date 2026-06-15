@@ -58,6 +58,11 @@ function asserted(object) {
     }
     return object;
 }
+function stringOrThrow(value) {
+    if (!isString(value)) {
+        throw new Error('Expected a string.');
+    }
+}
 function isTruthy(object) {
     return Boolean(object) === true;
 }
@@ -260,4 +265,5 @@ exports.readJSON = readJSON;
 exports.remove = remove;
 exports.removeFiles = removeFiles;
 exports.sleep = sleep;
+exports.stringOrThrow = stringOrThrow;
 exports.toString = toString;

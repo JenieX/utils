@@ -1,9 +1,17 @@
+import { isString } from './is';
+
 function asserted<T>(object: T | null | undefined): T {
   if (object === null || object === undefined) {
     throw new Error('Value is either null or undefined.');
   }
 
   return object;
+}
+
+function stringOrThrow(value: unknown): asserts value is string {
+  if (!isString(value)) {
+    throw new Error('Expected a string.');
+  }
 }
 
 function isTruthy<T>(object: T): object is Exclude<T, '' | 0 | false | null | undefined> {
@@ -22,4 +30,4 @@ function isNotNullish<T>(object: T): object is Exclude<T, null | undefined> {
   return object !== null && object !== undefined;
 }
 
-export { asserted, isTruthy, isFalsy, isNullish, isNotNullish };
+export { asserted, isTruthy, isFalsy, isNullish, isNotNullish, stringOrThrow };

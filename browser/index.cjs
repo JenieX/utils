@@ -54,6 +54,11 @@ function asserted(object) {
     }
     return object;
 }
+function stringOrThrow(value) {
+    if (!isString(value)) {
+        throw new Error('Expected a string.');
+    }
+}
 function isTruthy(object) {
     return Boolean(object) === true;
 }
@@ -505,5 +510,6 @@ exports.saveFile = saveFile;
 exports.scriptName = scriptName;
 exports.setSearchParam = setSearchParam;
 exports.sleep = sleep;
+exports.stringOrThrow = stringOrThrow;
 exports.tabURL = tabURL;
 exports.toString = toString;

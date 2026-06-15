@@ -52,6 +52,11 @@ function asserted(object) {
     }
     return object;
 }
+function stringOrThrow(value) {
+    if (!isString(value)) {
+        throw new Error('Expected a string.');
+    }
+}
 function isTruthy(object) {
     return Boolean(object) === true;
 }
@@ -466,4 +471,4 @@ function customizeConsole(debug = false) {
     };
 }
 
-export { $, $$, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, customizeConsole, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, tabURL, toString };
+export { $, $$, addStyle, alert, asserted, capitalize, checkVPN, checkVPNRandomly, confirm, customizeConsole, fish, fishResponse, fishX, fishXResponse, getOptions, getSearchParam, imageLoad, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, noop, padZeros, pageLoad, prompt, remove, removeSearchParams, saveFile, scriptName, setSearchParam, sleep, stringOrThrow, tabURL, toString };

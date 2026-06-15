@@ -56,6 +56,11 @@ function asserted(object) {
     }
     return object;
 }
+function stringOrThrow(value) {
+    if (!isString(value)) {
+        throw new Error('Expected a string.');
+    }
+}
 function isTruthy(object) {
     return Boolean(object) === true;
 }
@@ -237,4 +242,4 @@ async function readJSON(filePath, withComments = false) {
     return JSON.parse(stringJSON);
 }
 
-export { asserted, capitalize, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, padZeros, readJSON, remove, removeFiles, sleep, toString };
+export { asserted, capitalize, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, padZeros, readJSON, remove, removeFiles, sleep, stringOrThrow, toString };
