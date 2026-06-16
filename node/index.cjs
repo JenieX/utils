@@ -1,7 +1,7 @@
 'use strict';
 
-var fs = require('node:fs');
 var fsp = require('node:fs/promises');
+var fs = require('node:fs');
 var path = require('node:path');
 
 function noop() { }
@@ -132,6 +132,64 @@ function capitalize(sentence) {
         }).join(' ');
     }
     return capitalizeWord(sentence);
+}
+
+async function exists(path) {
+    try {
+        await fsp.access(path);
+        return true;
+    }
+    catch {
+        return false;
+    }
+}
+
+async function existsFile(path) {
+    try {
+        const stats = await fsp.stat(path);
+        return stats.isFile();
+    }
+    catch {
+        return false;
+    }
+}
+
+function existsFileSync(path) {
+    try {
+        return fs.statSync(path).isFile();
+    }
+    catch {
+        return false;
+    }
+}
+
+async function existsFolder(path) {
+    try {
+        const stats = await fsp.stat(path);
+        return stats.isDirectory();
+    }
+    catch {
+        return false;
+    }
+}
+
+function existsFolderSync(path) {
+    try {
+        return fs.statSync(path).isDirectory();
+    }
+    catch {
+        return false;
+    }
+}
+
+function existsSync(path) {
+    try {
+        fs.accessSync(path);
+        return true;
+    }
+    catch {
+        return false;
+    }
 }
 
 /**
@@ -317,6 +375,12 @@ function rq(url, options) {
 
 exports.asserted = asserted;
 exports.capitalize = capitalize;
+exports.exists = exists;
+exports.existsFile = existsFile;
+exports.existsFileSync = existsFileSync;
+exports.existsFolder = existsFolder;
+exports.existsFolderSync = existsFolderSync;
+exports.existsSync = existsSync;
 exports.isBoolean = isBoolean;
 exports.isFalsy = isFalsy;
 exports.isFunction = isFunction;

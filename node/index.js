@@ -1,5 +1,5 @@
-import fs from 'node:fs';
-import fsp from 'node:fs/promises';
+import fsp, { access, stat } from 'node:fs/promises';
+import fs, { statSync, accessSync } from 'node:fs';
 import path from 'node:path';
 
 function noop() { }
@@ -130,6 +130,64 @@ function capitalize(sentence) {
         }).join(' ');
     }
     return capitalizeWord(sentence);
+}
+
+async function exists(path) {
+    try {
+        await access(path);
+        return true;
+    }
+    catch {
+        return false;
+    }
+}
+
+async function existsFile(path) {
+    try {
+        const stats = await stat(path);
+        return stats.isFile();
+    }
+    catch {
+        return false;
+    }
+}
+
+function existsFileSync(path) {
+    try {
+        return statSync(path).isFile();
+    }
+    catch {
+        return false;
+    }
+}
+
+async function existsFolder(path) {
+    try {
+        const stats = await stat(path);
+        return stats.isDirectory();
+    }
+    catch {
+        return false;
+    }
+}
+
+function existsFolderSync(path) {
+    try {
+        return statSync(path).isDirectory();
+    }
+    catch {
+        return false;
+    }
+}
+
+function existsSync(path) {
+    try {
+        accessSync(path);
+        return true;
+    }
+    catch {
+        return false;
+    }
 }
 
 /**
@@ -313,4 +371,4 @@ function rq(url, options) {
     return createRequest(fetchTransport, url, options);
 }
 
-export { asserted, capitalize, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, padZeros, readJSON, remove, removeFiles, rq, createRequest as rqc, sleep, stringOrThrow, toString };
+export { asserted, capitalize, exists, existsFile, existsFileSync, existsFolder, existsFolderSync, existsSync, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, padZeros, readJSON, remove, removeFiles, rq, createRequest as rqc, sleep, stringOrThrow, toString };

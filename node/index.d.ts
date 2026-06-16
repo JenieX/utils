@@ -56,6 +56,18 @@ type Prettify<T> = {
     [KeyType in keyof T]: T[KeyType];
 } & {};
 
+declare function exists(path: string): Promise<boolean>;
+
+declare function existsFile(path: string): Promise<boolean>;
+
+declare function existsFileSync(path: string): boolean;
+
+declare function existsFolder(path: string): Promise<boolean>;
+
+declare function existsFolderSync(path: string): boolean;
+
+declare function existsSync(path: string): boolean;
+
 interface ListBaseOpt {
     /** The absolute path of the target folder. */
     folderPath: string;
@@ -134,4 +146,4 @@ declare function rq(url: string, options?: RequestInit): RqRequest;
 
 declare function createRequest<TOptions>(transport: Transport<TOptions>, url: string, options?: TOptions): RqRequest;
 
-export { Fn, Nullable, Prettify, asserted, capitalize, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, padZeros, readJSON, remove, removeFiles, rq, createRequest as rqc, sleep, stringOrThrow, toString };
+export { Fn, Nullable, Prettify, asserted, capitalize, exists, existsFile, existsFileSync, existsFolder, existsFolderSync, existsSync, isBoolean, isFalsy, isFunction, isNotNullish, isNullish, isNumber, isObject, isString, isTruthy, join, listFiles, listFolders, listFoldersSync, noop, padZeros, readJSON, remove, removeFiles, rq, createRequest as rqc, sleep, stringOrThrow, toString };
