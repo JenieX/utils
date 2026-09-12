@@ -42,6 +42,26 @@ async function confirm(message, defaultAnswer = false) {
     return confirmValue;
 }
 
+/**
+ * Asserts that an object is neither `null` nor `undefined`.
+ *
+ * If the object is `null` or `undefined`, a `TypeError` is thrown.
+ * Otherwise, TypeScript narrows the object to `T`.
+ *
+ * @template T The type of the object.
+ *
+ * @param object The object to validate.
+ *
+ * @throws {TypeError} If the object is `null` or `undefined`.
+ *
+ * @example
+ * const object: string | undefined = Math.random() < 0.5 ? undefined : 'Hello';
+ *
+ * assert(object);
+ *
+ * // `object` is now typed as `string`.
+ * console.log(object.length);
+ */
 function isFalsy(object) {
     return Boolean(object) === false;
 }

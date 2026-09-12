@@ -48,16 +48,130 @@ function remove(array, object) {
     array.splice(index, 1);
 }
 
+/**
+ * Asserts that an object is neither `null` nor `undefined`.
+ *
+ * If the object is `null` or `undefined`, a `TypeError` is thrown.
+ * Otherwise, TypeScript narrows the object to `T`.
+ *
+ * @template T The type of the object.
+ *
+ * @param object The object to validate.
+ *
+ * @throws {TypeError} If the object is `null` or `undefined`.
+ *
+ * @example
+ * const object: string | undefined = Math.random() < 0.5 ? undefined : 'Hello';
+ *
+ * assert(object);
+ *
+ * // `object` is now typed as `string`.
+ * console.log(object.length);
+ */
+function assert(object) {
+    if (object === null || object === undefined) {
+        throw new TypeError('object is either null or undefined');
+    }
+}
+/**
+ * Asserts that an object satisfies the given type guard.
+ *
+ * If the type guard returns `false`, a `TypeError` is thrown.
+ * Otherwise, TypeScript narrows the object to the type accepted by
+ * the type guard.
+ *
+ * @template T The type checked by the type guard.
+ *
+ * @param object The object to validate.
+ * @param guard A type guard used to validate the object.
+ *
+ * @throws {TypeError} If the object does not satisfy the type guard.
+ *
+ * @example
+ * const object: number | string = Math.random() < 0.5 ? 1 : 'Hello';
+ *
+ * assertType(object, isNumber);
+ *
+ * // `object` is now typed as `number`.
+ * console.log(object.toFixed(2));
+ *
+ * @example
+ * const object: unknown = 'hello';
+ *
+ * assertType(object, isString);
+ *
+ * // `object` is now typed as `string`.
+ * console.log(object.toUpperCase());
+ */
+function assertType(object, guard) {
+    if (!guard(object)) {
+        throw new TypeError('object has an invalid type');
+    }
+}
+/**
+ * Asserts that an object is neither `null` nor `undefined` and returns it.
+ *
+ * If the object is `null` or `undefined`, a `TypeError` is thrown.
+ * Otherwise, the object is returned with its type narrowed to `T`.
+ *
+ * @template T The type of the object.
+ *
+ * @param object The object to validate.
+ *
+ * @returns The validated object, narrowed to `T`.
+ *
+ * @throws {TypeError} If the object is `null` or `undefined`.
+ *
+ * @example
+ * const object: string | undefined = Math.random() < 0.5 ? undefined : 'Hello';
+ *
+ * const string = asserted(object);
+ *
+ * // `object` is now typed as `string`.
+ * console.log(string.length);
+ */
 function asserted(object) {
     if (object === null || object === undefined) {
-        throw new Error('Value is either null or undefined.');
+        throw new TypeError('object is either null or undefined');
     }
     return object;
 }
-function stringOrThrow(value) {
-    if (!isString(value)) {
-        throw new Error('Expected a string.');
+/**
+ * Asserts that an object satisfies the given type guard and returns it
+ * with the narrowed type.
+ *
+ * If the type guard returns `false`, a `TypeError` is thrown.
+ *
+ * @template T The type checked by the type guard.
+ *
+ * @param object The object to validate.
+ * @param guard A type guard used to validate the object.
+ *
+ * @returns The validated object, narrowed to `T`.
+ *
+ * @throws {TypeError} If the object does not satisfy the type guard.
+ *
+ * @example
+ * const object: number | string = Math.random() < 0.5 ? 1 : 'Hello';
+ *
+ * const number = assertedType(object, isNumber);
+ *
+ * // `number` is typed as `number`.
+ * console.log(number.toFixed(2));
+ *
+ * @example
+ * const object: unknown = 'hello';
+ *
+ * const text = assertedType(object, isString);
+ *
+ * // `text` is typed as `string`.
+ * console.log(text.toUpperCase());
+ */
+function assertedType(object, guard) {
+    if (!guard(object)) {
+        throw new TypeError('object has an invalid type');
     }
+    return object;
 }
 function isTruthy(object) {
     return Boolean(object) === true;
@@ -585,7 +699,10 @@ exports.$ = $;
 exports.$$ = $$;
 exports.addStyle = addStyle;
 exports.alert = alert;
+exports.assert = assert;
+exports.assertType = assertType;
 exports.asserted = asserted;
+exports.assertedType = assertedType;
 exports.capitalize = capitalize;
 exports.checkVPN = checkVPN;
 exports.checkVPNRandomly = checkVPNRandomly;
@@ -621,6 +738,5 @@ exports.saveFile = saveFile;
 exports.scriptName = scriptName;
 exports.setSearchParam = setSearchParam;
 exports.sleep = sleep;
-exports.stringOrThrow = stringOrThrow;
 exports.tabURL = tabURL;
 exports.toString = toString;
