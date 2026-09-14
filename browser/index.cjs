@@ -244,9 +244,9 @@ function capitalize(sentence) {
     return capitalizeWord(sentence);
 }
 
-const scriptName = GM.info.script.name;
+const scriptName = typeof GM === 'undefined' ? '' : GM.info.script.name;
 /** The initial tab URL on the script run. */
-const tabURL = window.location.href;
+const tabURL = typeof window === 'undefined' ? '' : window.location.href;
 
 function alert(message) {
     if (message === undefined) {
