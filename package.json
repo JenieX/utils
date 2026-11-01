@@ -10,8 +10,7 @@
   "exports": {
     "./browser": {
       "types": "./browser/index.d.ts",
-      "import": "./browser/index.js",
-      "require": "./browser/index.cjs"
+      "import": "./browser/index.js"
     },
     "./node": {
       "types": "./node/index.d.ts",
