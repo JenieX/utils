@@ -5,7 +5,7 @@ import dts from 'rollup-plugin-dts';
 
 /** @type {Entry[]} */
 const entries = [
-  { input: 'src/browser/index.ts', formats: ['esm', 'cjs'] },
+  { input: 'src/browser/index.ts', formats: ['esm'] },
   { input: 'src/node/index.ts', formats: ['esm', 'cjs'] },
   { input: 'src/node/inquirer/index.ts', formats: ['esm'] },
 ];
@@ -28,12 +28,19 @@ export default [
       }),
     ],
   })),
-  ...entries.map(({ input }) => ({
+
+  // ------------------------
+
+  ...entries.map(({ input, formats }) => ({
     input,
-    output: {
-      file: input.replace('src/', '').replace('.ts', '.d.ts'),
-      format: 'esm',
-    },
+    output: formats.map((format) => {
+      const extension = format === 'esm' ? '.d.ts' : '.cts';
+
+      return {
+        file: input.replace('src/', '').replace('.ts', extension),
+        format,
+      };
+    }),
     external: [],
     plugins: [dts({ respectExternal: true })],
   })),

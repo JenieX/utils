@@ -13,9 +13,14 @@
       "import": "./browser/index.js"
     },
     "./node": {
-      "types": "./node/index.d.ts",
-      "import": "./node/index.js",
-      "require": "./node/index.cjs"
+      "import": {
+        "types": "./node/index.d.ts",
+        "default": "./node/index.js"
+      },
+      "require": {
+        "types": "./node/index.d.cts",
+        "default": "./node/index.cjs"
+      }
     },
     "./node/inquirer": {
       "types": "./node/inquirer/index.d.ts",
